@@ -1,0 +1,714 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Variation Sheet</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Arial,sans-serif;background:#f0f4f8;min-height:100vh;user-select:none}
+header{background:linear-gradient(135deg,#1F3864,#2E5696);color:#fff;padding:16px 28px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 2px 8px rgba(0,0,0,.25)}
+header h1{font-size:1.25rem}
+.hdate{font-size:.82rem;opacity:.8}
+.container{max-width:1340px;margin:22px auto;padding:0 16px}
+.card{background:#fff;border-radius:10px;box-shadow:0 2px 10px rgba(0,0,0,.08);padding:20px 22px;margin-bottom:16px}
+.card-title{font-size:.92rem;font-weight:700;color:#1F3864;margin-bottom:14px;border-bottom:2px solid #dce3f3;padding-bottom:8px}
+/* Summary */
+.sg{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px}
+.si{background:#f0f4fb;border-radius:8px;padding:12px 16px;text-align:center}
+.sv{font-size:1.4rem;font-weight:700;color:#1F3864}
+.sl{font-size:.75rem;color:#555;margin-top:2px}
+/* Table */
+.tbl-wrap{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-size:.84rem;font-family:Arial,sans-serif;table-layout:fixed}
+col.c-sn  {width:42px}
+col.c-name{width:200px}
+col.c-num {width:105px}
+col.c-calc{width:90px}
+col.c-rem {width:180px}
+col.c-del {width:32px}
+thead th{background:#1F3864;color:#fff;padding:9px 8px;text-align:center;font-weight:700;border:1px solid #16305a;white-space:nowrap;overflow:hidden}
+thead th.calc-hdr{background:#4472C4;border-color:#3561b0}
+thead th.lft{text-align:left}
+/* Body cells */
+tbody td{padding:0;border:1px solid #c5cde0;vertical-align:middle;position:relative}
+tbody tr:nth-child(even) td{background:#f5f8ff}
+/* Selection highlight */
+td.sel{outline:2px solid #1F7ABF;outline-offset:-2px;z-index:1}
+td.sel-range{background:#CCE5FF!important;outline:1px solid #90CAF9;outline-offset:-1px}
+td.copy-source{outline:2px dashed #1F7ABF;outline-offset:-2px}
+/* Inputs */
+.ci{width:100%;border:none;padding:6px 7px;font-size:.84rem;font-family:Arial;background:transparent;color:#000;outline:none;display:block}
+.ci.lft{text-align:left}
+.ci.ctr{text-align:center}
+.ci:focus{background:#fff9e6}
+/* Computed cells */
+.cc{padding:6px 7px;text-align:center;font-size:.84rem;color:#333}
+/* Color coding */
+.v-ok  {background:#C6EFCE;color:#276221;font-weight:700}
+.v-warn{background:#FFEB9C;color:#9C6500;font-weight:700}
+.v-bad {background:#FFC7CE;color:#9C0006;font-weight:700}
+.s-ok  {background:#C6EFCE;color:#276221;font-weight:700}
+.s-warn{background:#FFEB9C;color:#9C6500;font-weight:700}
+.s-bad {background:#FFC7CE;color:#9C0006;font-weight:700}
+tfoot td{font-weight:700;background:#BDD7EE;border:1px solid #b0bbd8;padding:8px 10px;text-align:center;color:#000}
+.del-btn{background:none;border:none;cursor:pointer;color:#c62828;font-size:.9rem;padding:0 6px;width:100%;height:100%;display:flex;align-items:center;justify-content:center}
+.del-btn:hover{color:#8b0000}
+/* Actions */
+.row-actions{display:flex;gap:10px;margin-top:12px;flex-wrap:wrap;align-items:center}
+.btn{padding:7px 18px;border:none;border-radius:6px;cursor:pointer;font-size:.84rem;font-weight:700;transition:opacity .15s}
+.btn:hover{opacity:.85}
+.btn-add{background:#1F3864;color:#fff}
+.btn-clr{background:#757575;color:#fff}
+.btn-dl{background:#1F5C1F;color:#fff;font-size:.9rem;padding:10px 26px}
+.btn-dl:disabled{background:#aaa;cursor:not-allowed}
+/* Copy-paste hint */
+.cp-hint{font-size:.76rem;color:#666;margin-left:8px;background:#f0f4f8;border:1px solid #dde3ed;border-radius:4px;padding:4px 10px}
+/* Legend */
+.legend{display:flex;gap:14px;flex-wrap:wrap;margin-top:10px}
+.li{display:flex;align-items:center;gap:5px;font-size:.78rem;color:#444}
+.ld{width:12px;height:12px;border-radius:3px;display:inline-block;flex-shrink:0}
+/* Note */
+.note-card{background:#fffde7;border-left:4px solid #f9a825;border-radius:6px;padding:12px 16px;margin-bottom:16px;font-size:.84rem;color:#4a3800;line-height:1.6}
+.dl-row{text-align:right;margin-bottom:28px}
+/* Modal */
+.modal-bg{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:9999;align-items:center;justify-content:center}
+.modal-bg.open{display:flex}
+.modal{background:#fff;border-radius:12px;padding:28px 32px;max-width:460px;width:90%;box-shadow:0 8px 40px rgba(0,0,0,.3);text-align:center}
+.m-icon{font-size:2.4rem;margin-bottom:10px}
+.modal h3{color:#b71c1c;font-size:1.05rem;margin-bottom:8px}
+.modal p{color:#333;font-size:.88rem;line-height:1.55;margin-bottom:18px}
+.modal-btns{display:flex;gap:10px;justify-content:center}
+.btn-proc{background:#1F3864;color:#fff}
+.btn-cncl{background:#9e9e9e;color:#fff}
+.spinner{display:none;width:16px;height:16px;border:3px solid rgba(255,255,255,.4);border-top-color:#fff;border-radius:50%;animation:spin .7s linear infinite;margin-left:8px;vertical-align:middle}
+@keyframes spin{to{transform:rotate(360deg)}}
+@media(max-width:640px){.dl-row{text-align:center}.btn-dl{width:100%}}
+/* Paste ghost overlay */
+#paste-info{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#1F3864;color:#fff;padding:8px 18px;border-radius:20px;font-size:.82rem;display:none;z-index:999;box-shadow:0 2px 12px rgba(0,0,0,.3)}
+</style>
+</head>
+<body>
+<header>
+  <h1>&#x1F4CA; Variation Sheet</h1>
+  <span class="hdate" id="hdate"></span>
+</header>
+
+<div class="container">
+  <div class="card">
+    <div class="card-title">Summary</div>
+    <div class="sg">
+      <div class="si"><div class="sv" id="s-cl">0</div><div class="sl">Clients</div></div>
+      <div class="si"><div class="sv" id="s-sz">0</div><div class="sl">Total Size (Sq cm)</div></div>
+      <div class="si"><div class="sv" id="s-am">0</div><div class="sl">Total Amount (Rs)</div></div>
+      <div class="si"><div class="sv" id="s-av">-</div><div class="sl">Avg Yield</div></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Client Variation Data
+      <span style="font-size:.76rem;color:#777;font-weight:400;margin-left:8px">Click to edit &nbsp;|&nbsp; Ctrl+C to copy selection &nbsp;|&nbsp; Ctrl+V to paste &nbsp;|&nbsp; Paste from Excel supported</span>
+    </div>
+    <div class="tbl-wrap">
+      <table id="tbl">
+        <colgroup>
+          <col class="c-sn"><col class="c-name"><col class="c-num"><col class="c-num">
+          <col class="c-calc"><col class="c-calc"><col class="c-calc"><col class="c-calc">
+          <col class="c-rem"><col class="c-del">
+        </colgroup>
+        <thead>
+          <tr>
+            <th>S.N</th>
+            <th class="lft">Client Name</th>
+            <th>Size (Sq cm)</th>
+            <th>Amount (Rs)</th>
+            <th class="calc-hdr">Net Yield</th>
+            <th class="calc-hdr">Avg Yield</th>
+            <th class="calc-hdr">Variation</th>
+            <th class="calc-hdr">Space Alloc.</th>
+            <th class="lft">Remarks / Reason</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody id="tbody"></tbody>
+        <tfoot>
+          <tr>
+            <td colspan="2" style="text-align:left;padding:8px 10px">Total</td>
+            <td id="f-sz">-</td><td id="f-am">-</td>
+            <td id="f-ny">-</td><td id="f-ay">-</td>
+            <td></td><td></td><td></td><td></td>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+    <div class="row-actions">
+      <button class="btn btn-add" onclick="addRow()">+ Add Row</button>
+      <button class="btn btn-clr" onclick="clearAll()">Clear All</button>
+      <span class="cp-hint">&#x1F4CB; Select cells then Ctrl+C &bull; Ctrl+V to paste &bull; Works with Excel/Sheets copy</span>
+    </div>
+    <div class="legend">
+      <div class="li"><span class="ld" style="background:#C6EFCE;border:1px solid #82c882"></span>Variation within ±20%</div>
+      <div class="li"><span class="ld" style="background:#FFEB9C;border:1px solid #f0c000"></span>Variation ±20-100%</div>
+      <div class="li"><span class="ld" style="background:#FFC7CE;border:1px solid #e57373"></span>Variation >±100%</div>
+      <div class="li"><span class="ld" style="background:#FFEB9C;border:1px solid #f0c000"></span>Space Alloc 20-25%</div>
+      <div class="li"><span class="ld" style="background:#FFC7CE;border:1px solid #e57373"></span>Space Alloc >25%</div>
+    </div>
+  </div>
+
+  <div class="note-card">
+    <strong>Notes:</strong><br>
+    - Variation outside <strong>&#177;20%</strong> requires <strong>National Sales Head</strong> approval (Generic / Research clients exempt).<br>
+    - Space Allocation above <strong>25%</strong> requires <strong>Sameer Sir</strong> approval (Generic / Research clients exempt).<br>
+    - <em>Input your comment with reason where Variation is more than 30%</em> in the Remarks / Reason column.
+  </div>
+
+  <div class="dl-row">
+    <button class="btn btn-dl" id="dlBtn" onclick="handleDownload()">
+      Download Excel <span class="spinner" id="sp"></span>
+    </button>
+  </div>
+</div>
+
+<div class="modal-bg" id="modalBg">
+  <div class="modal">
+    <div class="m-icon" id="mIcon"></div>
+    <h3 id="mTitle"></h3>
+    <p id="mMsg"></p>
+    <div class="modal-btns">
+      <button class="btn btn-proc" onclick="proceedModal()">Proceed Anyway</button>
+      <button class="btn btn-cncl" onclick="cancelModal()">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<div id="paste-info"></div>
+
+<script>
+// ═══════════════════════════════════════════════════════════════
+//  STATE
+// ═══════════════════════════════════════════════════════════════
+const COLS     = ['name','size','amnt','reason'];  // editable column keys
+const COL_IDX  = {name:0, size:1, amnt:2, reason:3}; // within editable cols
+// Table columns (0-based): 0=SN, 1=name, 2=size, 3=amnt, 4=netY, 5=avgY, 6=var, 7=sa, 8=reason, 9=del
+const EDIT_COLS = [1,2,3,8]; // column indices that are editable
+
+const EXEMPT = s => ['generic','research'].includes((s||'').trim().toLowerCase());
+const safeN  = v => { const n=parseFloat(v); return isNaN(n)?0:n; };
+
+let rows       = Array.from({length:12}, ()=>({name:'',size:'',amnt:'',reason:''}));
+let modalQueue = [];
+
+// Selection state
+let selStart   = null;  // {r, c} grid coords
+let selEnd     = null;
+let selecting  = false;
+let copyBuffer = null;  // 2D array of text
+let copyRange  = null;  // {r1,c1,r2,c2}
+
+// ═══════════════════════════════════════════════════════════════
+//  INIT
+// ═══════════════════════════════════════════════════════════════
+document.getElementById('hdate').textContent =
+  new Date().toLocaleDateString('en-IN',{day:'2-digit',month:'short',year:'numeric'});
+render();
+initKeyboard();
+
+// ═══════════════════════════════════════════════════════════════
+//  CALCULATIONS
+// ═══════════════════════════════════════════════════════════════
+function getTotals(){
+  const active = rows.filter(r=>r.name.trim()&&safeN(r.size)>0);
+  const tSz = active.reduce((s,r)=>s+safeN(r.size),0);
+  const tAm = active.reduce((s,r)=>s+safeN(r.amnt),0);
+  const avg = tSz>0 ? tAm/tSz : 0;
+  return {tSz,tAm,avg};
+}
+function calcRow(r,avg,tSz){
+  const sz=safeN(r.size), am=safeN(r.amnt);
+  const net= sz>0 ? am/sz : 0;
+  const vari= avg>0&&sz>0 ? (net-avg)/avg : 0;
+  const sa  = tSz>0&&sz>0 ? sz/tSz : 0;
+  return {sz,am,net,vari,sa};
+}
+
+// ═══════════════════════════════════════════════════════════════
+//  RENDER
+// ═══════════════════════════════════════════════════════════════
+function render(){
+  const {tSz,tAm,avg} = getTotals();
+  const tbody = document.getElementById('tbody');
+  tbody.innerHTML = '';
+
+  rows.forEach((row,ri)=>{
+    const {sz,net,vari,sa} = calcRow(row,avg,tSz);
+    const hasData = row.name.trim()&&sz>0;
+    const vp=vari*100, sp=sa*100;
+
+    let vCls='cc', vTxt='—';
+    if(hasData){
+      vTxt=vp.toFixed(0)+'%';
+      vCls= vp>=-20&&vp<=20 ? 'cc v-ok' : Math.abs(vp)<=100 ? 'cc v-warn' : 'cc v-bad';
+    }
+    let sCls='cc', sTxt='—';
+    if(hasData){
+      sTxt=sp.toFixed(0)+'%';
+      sCls= sp>25 ? 'cc s-bad' : sp>=20 ? 'cc s-warn' : 'cc s-ok';
+    }
+
+    const tr=document.createElement('tr');
+    tr.dataset.ri=ri;
+    // Cols: 0=SN,1=name,2=size,3=amnt,4=net,5=avg,6=var,7=sa,8=reason,9=del
+    tr.innerHTML=`
+<td class="cc" data-r="${ri}" data-c="0">${ri+1}</td>
+<td data-r="${ri}" data-c="1"><input class="ci lft" value="${esc(row.name)}" placeholder="Client name" data-r="${ri}" data-f="name"></td>
+<td data-r="${ri}" data-c="2"><input class="ci ctr" type="number" min="0" value="${row.size}" placeholder="0" data-r="${ri}" data-f="size"></td>
+<td data-r="${ri}" data-c="3"><input class="ci ctr" type="number" min="0" value="${row.amnt}" placeholder="0" data-r="${ri}" data-f="amnt"></td>
+<td class="cc" data-r="${ri}" data-c="4">${hasData?net.toFixed(0):'—'}</td>
+<td class="cc" data-r="${ri}" data-c="5">${hasData?avg.toFixed(0):'—'}</td>
+<td class="${vCls}" data-r="${ri}" data-c="6">${vTxt}</td>
+<td class="${sCls}" data-r="${ri}" data-c="7">${sTxt}</td>
+<td data-r="${ri}" data-c="8"><input class="ci lft" value="${esc(row.reason)}" placeholder="Remarks / comments..." data-r="${ri}" data-f="reason"></td>
+<td data-r="${ri}" data-c="9"><button class="del-btn" onclick="delRow(${ri})">&#x2715;</button></td>`;
+    tbody.appendChild(tr);
+  });
+
+  // Re-attach input listeners
+  tbody.querySelectorAll('input.ci').forEach(inp=>{
+    inp.addEventListener('input', e=>{
+      rows[+e.target.dataset.r][e.target.dataset.f] = e.target.value;
+      renderCalcs();
+    });
+    inp.addEventListener('mousedown', e=>{
+      // Set selStart to this cell so Ctrl+V knows the paste target
+      const r=+inp.dataset.r;
+      const colMap={name:1,size:2,amnt:3,reason:8};
+      const c=colMap[inp.dataset.f];
+      selStart={r,c}; selEnd={r,c};
+      applySelection();
+      // Don't stopPropagation — let TD handler also fire for drag-select start
+    });
+    // Arrow key navigation inside inputs
+    inp.addEventListener('keydown', inputKeyNav);
+  });
+
+  // Mouse selection on TD
+  tbody.querySelectorAll('td').forEach(td=>{
+    td.addEventListener('mousedown', tdMouseDown);
+    td.addEventListener('mouseover', tdMouseOver);
+  });
+
+  renderCalcs();
+  applySelection();
+}
+
+function renderCalcs(){
+  const {tSz,tAm,avg} = getTotals();
+  // Update computed cells without full re-render
+  rows.forEach((row,ri)=>{
+    const {sz,net,vari,sa}=calcRow(row,avg,tSz);
+    const hasData=row.name.trim()&&sz>0;
+    const vp=vari*100, sp=sa*100;
+
+    const tr=document.querySelector(`tr[data-ri="${ri}"]`);
+    if(!tr)return;
+
+    const cells=tr.querySelectorAll('td');
+    // net yield [4], avg yield [5], variation [6], space alloc [7]
+    cells[4].textContent=hasData?net.toFixed(0):'—';
+    cells[5].textContent=hasData?avg.toFixed(0):'—';
+
+    cells[6].textContent=hasData?vp.toFixed(0)+'%':'—';
+    cells[6].className='cc'+(hasData?(vp>=-20&&vp<=20?' v-ok':Math.abs(vp)<=100?' v-warn':' v-bad'):'');
+
+    cells[7].textContent=hasData?sp.toFixed(0)+'%':'—';
+    cells[7].className='cc'+(hasData?(sp>25?' s-bad':sp>=20?' s-warn':' s-ok'):'');
+  });
+
+  // Footer
+  document.getElementById('f-sz').textContent = tSz?tSz.toLocaleString('en-IN'):'—';
+  document.getElementById('f-am').textContent = tAm?tAm.toLocaleString('en-IN'):'—';
+  document.getElementById('f-ny').textContent = avg?avg.toFixed(0):'—';
+  document.getElementById('f-ay').textContent = avg?avg.toFixed(0):'—';
+
+  const filled=rows.filter(r=>r.name.trim()&&safeN(r.size)>0);
+  document.getElementById('s-cl').textContent=filled.length||0;
+  document.getElementById('s-sz').textContent=tSz?tSz.toLocaleString('en-IN'):'0';
+  document.getElementById('s-am').textContent=tAm?tAm.toLocaleString('en-IN'):'0';
+  document.getElementById('s-av').textContent=avg?avg.toFixed(0):'—';
+}
+
+function esc(s){return String(s).replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}
+
+// ═══════════════════════════════════════════════════════════════
+//  ROW CRUD
+// ═══════════════════════════════════════════════════════════════
+function addRow(){rows.push({name:'',size:'',amnt:'',reason:''});render()}
+function delRow(i){rows.splice(i,1);if(!rows.length)rows=[{name:'',size:'',amnt:'',reason:''}];selStart=selEnd=null;render()}
+function clearAll(){if(confirm('Clear all rows?')){rows=Array.from({length:12},()=>({name:'',size:'',amnt:'',reason:''}));selStart=selEnd=null;render()}}
+
+// ═══════════════════════════════════════════════════════════════
+//  SELECTION SYSTEM
+// ═══════════════════════════════════════════════════════════════
+function tdMouseDown(e){
+  if(e.button!==0)return;
+  const td=e.currentTarget;
+  const r=+td.dataset.r, c=+td.dataset.c;
+  if(c===9)return; // delete col
+  if(c===1||c===2||c===3||c===8) return; // let input handle focus
+
+  e.preventDefault();
+  selStart={r,c}; selEnd={r,c}; selecting=true;
+  applySelection();
+}
+function tdMouseOver(e){
+  if(!selecting)return;
+  const td=e.currentTarget;
+  const r=+td.dataset.r, c=+td.dataset.c;
+  if(c===9)return;
+  selEnd={r,c};
+  applySelection();
+}
+document.addEventListener('mouseup',()=>{selecting=false});
+document.addEventListener('mousedown',e=>{
+  if(!e.target.closest('#tbl')){selStart=selEnd=null;applySelection()}
+});
+
+function applySelection(){
+  document.querySelectorAll('#tbody td').forEach(td=>td.classList.remove('sel','sel-range','copy-source'));
+  document.querySelectorAll('#tbody td.copy-source').forEach(td=>td.classList.remove('copy-source'));
+  if(!selStart)return;
+
+  // Copy source outline
+  if(copyRange){
+    const {r1,c1,r2,c2}=copyRange;
+    for(let r=r1;r<=r2;r++) for(let c=c1;c<=c2;c++){
+      const td=getCell(r,c);
+      if(td)td.classList.add('copy-source');
+    }
+  }
+
+  if(!selEnd){
+    getCell(selStart.r,selStart.c)?.classList.add('sel');
+    return;
+  }
+  const r1=Math.min(selStart.r,selEnd.r), r2=Math.max(selStart.r,selEnd.r);
+  const c1=Math.min(selStart.c,selEnd.c), c2=Math.max(selStart.c,selEnd.c);
+  for(let r=r1;r<=r2;r++) for(let c=c1;c<=c2;c++){
+    const td=getCell(r,c);
+    if(!td)continue;
+    td.classList.add(r===selStart.r&&c===selStart.c?'sel':'sel-range');
+  }
+}
+
+function getCell(r,c){
+  return document.querySelector(`#tbody td[data-r="${r}"][data-c="${c}"]`);
+}
+
+function getSelRange(){
+  if(!selStart)return null;
+  const e=selEnd||selStart;
+  return{r1:Math.min(selStart.r,e.r),r2:Math.max(selStart.r,e.r),
+         c1:Math.min(selStart.c,e.c),c2:Math.max(selStart.c,e.c)};
+}
+
+// ═══════════════════════════════════════════════════════════════
+//  KEYBOARD & CLIPBOARD
+// ═══════════════════════════════════════════════════════════════
+function initKeyboard(){
+
+  // ── Ctrl+C: copy our selection ─────────────────────────────
+  document.addEventListener('keydown', e=>{
+    const inInput = document.activeElement.tagName==='INPUT';
+
+    if((e.ctrlKey||e.metaKey) && e.key==='c'){
+      const rng = getSelRange();
+      // Only intercept when we have a real multi-cell or explicit selection
+      if(selStart){
+        e.preventDefault();
+        copySelection();
+      }
+      return;
+    }
+
+    // Delete key clears selection
+    if((e.key==='Delete'||e.key==='Backspace') && !inInput){
+      const rng=getSelRange();
+      if(!rng) return;
+      e.preventDefault();
+      clearRange(rng);
+      return;
+    }
+
+    // Arrow navigation outside inputs
+    if(['ArrowUp','ArrowDown','ArrowLeft','ArrowRight'].includes(e.key) && !inInput){
+      e.preventDefault();
+      moveSelection(e.key, e.shiftKey);
+    }
+  });
+
+  // ── PASTE: always intercept on document ────────────────────
+  // The paste event fires on document for ALL pastes (Ctrl+V, right-click, etc.)
+  // e.clipboardData is always populated here regardless of which element has focus.
+  // We intercept every paste when a cell is selected and spread the TSV grid.
+  document.addEventListener('paste', e=>{
+    if(!selStart) return; // nowhere to paste
+
+    const text = (e.clipboardData || window.clipboardData).getData('text/plain');
+    if(!text) return;
+
+    const isMultiCell = text.includes('\t') || text.includes('\n') || text.includes('\r');
+    const active = document.activeElement;
+    const inOurInput = active && active.tagName==='INPUT' && !!active.closest('#tbody');
+
+    // For single-value paste into a focused input: let the browser handle it naturally,
+    // then sync the new value into rows[].
+    if(!isMultiCell && inOurInput){
+      setTimeout(()=>{
+        const ri = +active.dataset.r, f = active.dataset.f;
+        if(!isNaN(ri) && f){ rows[ri][f] = active.value; renderCalcs(); }
+      }, 0);
+      return; // don't preventDefault — let browser insert into input
+    }
+
+    // Everything else: multi-cell TSV or paste into a computed/non-input cell
+    e.preventDefault();
+    pasteText(text, selStart);
+  });
+}
+
+function copySelection(){
+  const rng = getSelRange();
+  if(!rng) return;
+  const {r1,c1,r2,c2} = rng;
+  copyBuffer = [];
+  copyRange  = {r1,c1,r2,c2};
+
+  const lines = [];
+  for(let r=r1; r<=r2; r++){
+    const rowArr = [];
+    for(let c=c1; c<=c2; c++) rowArr.push(getCellValue(r,c));
+    copyBuffer.push(rowArr);
+    lines.push(rowArr.join('\t'));
+  }
+  const tsv = lines.join('\n');
+  // Use execCommand as primary (works even without clipboard permission)
+  const ta = document.createElement('textarea');
+  ta.style.cssText = 'position:fixed;top:0;left:0;opacity:0.01;width:2px;height:2px;';
+  ta.value = tsv;
+  document.body.appendChild(ta);
+  ta.focus(); ta.select();
+  try{ document.execCommand('copy'); } catch(ex){}
+  document.body.removeChild(ta);
+  // Also try modern API
+  navigator.clipboard?.writeText(tsv).catch(()=>{});
+
+  showToast('Copied ' + copyBuffer.length + '\xd7' + copyBuffer[0].length + ' cells');
+  applySelection();
+}
+function parseTSV(text){
+  const norm=text.replace(/\r\n/g,'\n').replace(/\r/g,'\n').replace(/\n$/,'');
+  if(!norm)return[['']];
+  return norm.split('\n').map(line=>{
+    const cells=[]; let inQ=false,cur='',i=0;
+    while(i<line.length){
+      const ch=line[i];
+      if(ch==='"'){if(inQ&&line[i+1]==='"'){cur+='"';i+=2;continue}inQ=!inQ;i++;continue;}
+      if(ch==='\t'&&!inQ){cells.push(cur);cur='';i++;continue;}
+      cur+=ch;i++;
+    }
+    cells.push(cur);
+    return cells;
+  });
+}
+
+function pasteText(text, origin){
+  if(!text||!text.trim()){if(copyBuffer)pasteBuffer(origin);return;}
+  const grid=parseTSV(text);
+  while(rows.length<origin.r+grid.length)rows.push({name:'',size:'',amnt:'',reason:''});
+  let count=0;
+  grid.forEach((rowData,dr)=>{
+    rowData.forEach((val,dc)=>{
+      if(setCellValue(origin.r+dr,origin.c+dc,val.trim()))count++;
+    });
+  });
+  copyRange=null;
+  render();
+  selEnd={r:origin.r+grid.length-1,c:origin.c+grid[0].length-1};
+  applySelection();
+  showToast('Pasted '+grid.length+' row(s) × '+grid[0].length+' col(s)');
+}
+
+function pasteBuffer(origin){
+  if(!copyBuffer)return;
+  const rows_needed=origin.r+copyBuffer.length;
+  while(rows.length<rows_needed)rows.push({name:'',size:'',amnt:'',reason:''});
+  let count=0;
+  copyBuffer.forEach((rowData,dr)=>{
+    rowData.forEach((val,dc)=>{
+      if(setCellValue(origin.r+dr,origin.c+dc,val))count++;
+    });
+  });
+  render();
+  showToast(`Pasted ${count} cells`);
+}
+
+function clearRange(rng){
+  const {r1,c1,r2,c2}=rng;
+  for(let r=r1;r<=r2;r++) for(let c=c1;c<=c2;c++) setCellValue(r,c,'');
+  render();
+}
+
+// Get display value of a cell
+function getCellValue(r,c){
+  if(r>=rows.length||r<0)return'';
+  const row=rows[r];
+  if(c===1)return row.name;
+  if(c===2)return row.size;
+  if(c===3)return row.amnt;
+  if(c===8)return row.reason;
+  // Computed cells — return display text
+  const td=getCell(r,c);
+  return td?td.textContent.trim():'';
+}
+
+// Set value of a cell; returns true if editable
+function setCellValue(r,c,val){
+  if(r<0)return false;
+  // Auto-extend rows array as needed (no upper cap — paste drives the size)
+  while(r>=rows.length)rows.push({name:'',size:'',amnt:'',reason:''});
+  if(c===1){rows[r].name=val;return true}
+  if(c===2){rows[r].size=val;return true}
+  if(c===3){rows[r].amnt=val;return true}
+  if(c===8){rows[r].reason=val;return true}
+  return false;
+}
+
+function moveSelection(key, shift){
+  if(!selStart)return;
+  const target=shift?(selEnd||selStart):selStart;
+  let {r,c}=target;
+  if(key==='ArrowUp')   r=Math.max(0,r-1);
+  if(key==='ArrowDown') r=Math.min(rows.length-1,r+1);
+  if(key==='ArrowLeft') c=Math.max(0,c-1);
+  if(key==='ArrowRight')c=Math.min(9,c+1);
+  if(shift){selEnd={r,c}}else{selStart={r,c};selEnd={r,c}}
+  applySelection();
+}
+
+// Arrow key nav inside inputs
+function inputKeyNav(e){
+  const inp=e.target;
+  const r=+inp.dataset.r;
+  const f=inp.dataset.f;
+  const colMap={name:1,size:2,amnt:3,reason:8};
+  const c=colMap[f];
+  let nr=r,nc=c;
+
+  if(e.key==='Tab'){
+    e.preventDefault();
+    // Move to next editable col or next row
+    const editCols=[1,2,3,8];
+    const idx=editCols.indexOf(c);
+    if(!e.shiftKey){
+      if(idx<editCols.length-1){nc=editCols[idx+1]}
+      else{nr=r+1;nc=editCols[0];if(nr>=rows.length){rows.push({name:'',size:'',amnt:'',reason:''});render();}}
+    } else {
+      if(idx>0){nc=editCols[idx-1]}else{nr=Math.max(0,r-1);nc=editCols[editCols.length-1]}
+    }
+    focusInput(nr,nc);return;
+  }
+  if(e.key==='ArrowDown'){nr=Math.min(rows.length-1,r+1);}
+  else if(e.key==='ArrowUp'){nr=Math.max(0,r-1);}
+  else if(e.key==='Enter'){nr=Math.min(rows.length-1,r+1);}
+  else return;
+  e.preventDefault();
+  focusInput(nr,nc);
+}
+
+function focusInput(r,c){
+  const fMap={1:'name',2:'size',3:'amnt',8:'reason'};
+  const f=fMap[c];
+  if(!f)return;
+  const inp=document.querySelector(`input[data-r="${r}"][data-f="${f}"]`);
+  if(inp){inp.focus();inp.select();}
+}
+
+// ═══════════════════════════════════════════════════════════════
+//  TOAST
+// ═══════════════════════════════════════════════════════════════
+let toastTimer;
+function showToast(msg){
+  const el=document.getElementById('paste-info');
+  el.textContent=msg; el.style.display='block';
+  clearTimeout(toastTimer);
+  toastTimer=setTimeout(()=>el.style.display='none',2000);
+}
+
+// ═══════════════════════════════════════════════════════════════
+//  APPROVAL FLOW
+// ═══════════════════════════════════════════════════════════════
+function handleDownload(){
+  modalQueue=[];
+  const {tSz,avg}=getTotals();
+
+  const varBad=rows.filter(r=>{
+    if(EXEMPT(r.name)||!r.name.trim())return false;
+    const {sz,vari}=calcRow(r,avg,tSz);
+    if(!sz)return false;
+    const vp=vari*100; return vp>20||vp<-20;
+  });
+  const saBad=rows.filter(r=>{
+    if(EXEMPT(r.name)||!r.name.trim())return false;
+    const {sz,sa}=calcRow(r,avg,tSz);
+    return sz>0&&sa*100>25;
+  });
+
+  if(varBad.length){
+    modalQueue.push({icon:'⚠️',title:'National Sales Head Approval Required',
+      msg:`<b>${varBad.length}</b> client(s) have Variation outside ±20%:<br><b>${varBad.map(r=>r.name).join(', ')}</b><br><br>Approval from <b>National Sales Head</b> is required before submission.`});
+  }
+  if(saBad.length){
+    modalQueue.push({icon:'🔴',title:'Sameer Sir Approval Required',
+      msg:`<b>${saBad.length}</b> client(s) have Space Allocation above 25%:<br><b>${saBad.map(r=>r.name).join(', ')}</b><br><br>Approval from <b>Sameer Sir</b> is required before submission.`});
+  }
+  modalQueue.length?showModal():doDownload();
+}
+
+function showModal(){
+  if(!modalQueue.length){doDownload();return}
+  const m=modalQueue.shift();
+  document.getElementById('mIcon').textContent=m.icon;
+  document.getElementById('mTitle').textContent=m.title;
+  document.getElementById('mMsg').innerHTML=m.msg;
+  document.getElementById('modalBg').classList.add('open');
+}
+function proceedModal(){document.getElementById('modalBg').classList.remove('open');modalQueue.length?showModal():doDownload()}
+function cancelModal(){document.getElementById('modalBg').classList.remove('open');modalQueue=[]}
+
+// ═══════════════════════════════════════════════════════════════
+//  DOWNLOAD
+// ═══════════════════════════════════════════════════════════════
+async function doDownload(){
+  const btn=document.getElementById('dlBtn');
+  const sp=document.getElementById('sp');
+  btn.disabled=true; sp.style.display='inline-block';
+  try{
+    const resp=await fetch('/generate',{method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({rows})});
+    if(!resp.ok)throw new Error('Server error: '+resp.status);
+    const blob=await resp.blob();
+    const url=URL.createObjectURL(blob);
+    const a=document.createElement('a');
+    a.href=url; a.download=`Variation_Sheet_${new Date().toISOString().slice(0,10)}.xlsx`;
+    document.body.appendChild(a);a.click();document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  }catch(ex){
+    alert('Download failed: '+ex.message+'\n\nMake sure the server is running.');
+  }finally{
+    btn.disabled=false;sp.style.display='none';
+  }
+}
+</script>
+</body>
+</html>
