@@ -7,708 +7,1088 @@
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:Arial,sans-serif;background:#f0f4f8;min-height:100vh;user-select:none}
-header{background:linear-gradient(135deg,#1F3864,#2E5696);color:#fff;padding:16px 28px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 2px 8px rgba(0,0,0,.25)}
-header h1{font-size:1.25rem}
-.hdate{font-size:.82rem;opacity:.8}
-.container{max-width:1340px;margin:22px auto;padding:0 16px}
-.card{background:#fff;border-radius:10px;box-shadow:0 2px 10px rgba(0,0,0,.08);padding:20px 22px;margin-bottom:16px}
-.card-title{font-size:.92rem;font-weight:700;color:#1F3864;margin-bottom:14px;border-bottom:2px solid #dce3f3;padding-bottom:8px}
-/* Summary */
-.sg{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px}
-.si{background:#f0f4fb;border-radius:8px;padding:12px 16px;text-align:center}
-.sv{font-size:1.4rem;font-weight:700;color:#1F3864}
-.sl{font-size:.75rem;color:#555;margin-top:2px}
-/* Table */
-.tbl-wrap{overflow-x:auto}
-table{border-collapse:collapse;width:100%;font-size:.84rem;font-family:Arial,sans-serif;table-layout:fixed}
-col.c-sn  {width:42px}
-col.c-name{width:200px}
-col.c-num {width:105px}
-col.c-calc{width:90px}
-col.c-rem {width:180px}
-col.c-del {width:32px}
-thead th{background:#1F3864;color:#fff;padding:9px 8px;text-align:center;font-weight:700;border:1px solid #16305a;white-space:nowrap;overflow:hidden}
-thead th.calc-hdr{background:#4472C4;border-color:#3561b0}
-thead th.lft{text-align:left}
-/* Body cells */
-tbody td{padding:0;border:1px solid #c5cde0;vertical-align:middle;position:relative}
-tbody tr:nth-child(even) td{background:#f5f8ff}
-/* Selection highlight */
-td.sel{outline:2px solid #1F7ABF;outline-offset:-2px;z-index:1}
-td.sel-range{background:#CCE5FF!important;outline:1px solid #90CAF9;outline-offset:-1px}
-td.copy-source{outline:2px dashed #1F7ABF;outline-offset:-2px}
-/* Inputs */
-.ci{width:100%;border:none;padding:6px 7px;font-size:.84rem;font-family:Arial;background:transparent;color:#000;outline:none;display:block}
-.ci.lft{text-align:left}
-.ci.ctr{text-align:center}
-.ci:focus{background:#fff9e6}
-/* Computed cells */
-.cc{padding:6px 7px;text-align:center;font-size:.84rem;color:#333}
-/* Color coding */
-.v-ok  {background:#C6EFCE;color:#276221;font-weight:700}
-.v-warn{background:#FFEB9C;color:#9C6500;font-weight:700}
-.v-bad {background:#FFC7CE;color:#9C0006;font-weight:700}
-.s-ok  {background:#C6EFCE;color:#276221;font-weight:700}
-.s-warn{background:#FFEB9C;color:#9C6500;font-weight:700}
-.s-bad {background:#FFC7CE;color:#9C0006;font-weight:700}
-tfoot td{font-weight:700;background:#BDD7EE;border:1px solid #b0bbd8;padding:8px 10px;text-align:center;color:#000}
-.del-btn{background:none;border:none;cursor:pointer;color:#c62828;font-size:.9rem;padding:0 6px;width:100%;height:100%;display:flex;align-items:center;justify-content:center}
-.del-btn:hover{color:#8b0000}
-/* Actions */
-.row-actions{display:flex;gap:10px;margin-top:12px;flex-wrap:wrap;align-items:center}
-.btn{padding:7px 18px;border:none;border-radius:6px;cursor:pointer;font-size:.84rem;font-weight:700;transition:opacity .15s}
-.btn:hover{opacity:.85}
-.btn-add{background:#1F3864;color:#fff}
-.btn-clr{background:#757575;color:#fff}
-.btn-dl{background:#1F5C1F;color:#fff;font-size:.9rem;padding:10px 26px}
-.btn-dl:disabled{background:#aaa;cursor:not-allowed}
-/* Copy-paste hint */
-.cp-hint{font-size:.76rem;color:#666;margin-left:8px;background:#f0f4f8;border:1px solid #dde3ed;border-radius:4px;padding:4px 10px}
-/* Legend */
-.legend{display:flex;gap:14px;flex-wrap:wrap;margin-top:10px}
-.li{display:flex;align-items:center;gap:5px;font-size:.78rem;color:#444}
-.ld{width:12px;height:12px;border-radius:3px;display:inline-block;flex-shrink:0}
-/* Note */
-.note-card{background:#fffde7;border-left:4px solid #f9a825;border-radius:6px;padding:12px 16px;margin-bottom:16px;font-size:.84rem;color:#4a3800;line-height:1.6}
-.dl-row{text-align:right;margin-bottom:28px}
-/* Modal */
-.modal-bg{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:9999;align-items:center;justify-content:center}
-.modal-bg.open{display:flex}
-.modal{background:#fff;border-radius:12px;padding:28px 32px;max-width:460px;width:90%;box-shadow:0 8px 40px rgba(0,0,0,.3);text-align:center}
-.m-icon{font-size:2.4rem;margin-bottom:10px}
-.modal h3{color:#b71c1c;font-size:1.05rem;margin-bottom:8px}
-.modal p{color:#333;font-size:.88rem;line-height:1.55;margin-bottom:18px}
-.modal-btns{display:flex;gap:10px;justify-content:center}
-.btn-proc{background:#1F3864;color:#fff}
-.btn-cncl{background:#9e9e9e;color:#fff}
-.spinner{display:none;width:16px;height:16px;border:3px solid rgba(255,255,255,.4);border-top-color:#fff;border-radius:50%;animation:spin .7s linear infinite;margin-left:8px;vertical-align:middle}
+header{background:linear-gradient(135deg,#1F3864,#2E5696);color:#fff;padding:14px 28px;
+  display:flex;align-items:center;justify-content:space-between;
+  box-shadow:0 2px 8px rgba(0,0,0,.25);position:sticky;top:0;z-index:500}
+header h1{font-size:1.2rem;font-weight:700}
+.hdr-r{display:flex;align-items:center;gap:12px}
+.hdate{font-size:.8rem;opacity:.75}
+.btn-tut{background:rgba(255,255,255,.15);color:#fff;font-size:.82rem;padding:7px 14px;
+  border:1px solid rgba(255,255,255,.3);border-radius:6px;cursor:pointer;font-weight:600}
+.btn-tut:hover{background:rgba(255,255,255,.28)}
+.btn-dl{background:#1a5c1a;color:#fff;font-size:.88rem;padding:8px 20px;border:none;
+  border-radius:6px;cursor:pointer;font-weight:700;white-space:nowrap}
+.btn-dl:hover{background:#145214}
+.btn-dl:disabled{background:#888;cursor:not-allowed}
+.sp{display:none;width:14px;height:14px;border:2px solid rgba(255,255,255,.4);
+  border-top-color:#fff;border-radius:50%;animation:spin .7s linear infinite;
+  margin-left:6px;vertical-align:middle}
 @keyframes spin{to{transform:rotate(360deg)}}
-@media(max-width:640px){.dl-row{text-align:center}.btn-dl{width:100%}}
-/* Paste ghost overlay */
-#paste-info{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#1F3864;color:#fff;padding:8px 18px;border-radius:20px;font-size:.82rem;display:none;z-index:999;box-shadow:0 2px 12px rgba(0,0,0,.3)}
+.container{max-width:1450px;margin:20px auto;padding:0 16px}
+.card{background:#fff;border-radius:10px;box-shadow:0 2px 10px rgba(0,0,0,.08);
+  padding:18px 22px;margin-bottom:16px}
+.card-title{font-size:.9rem;font-weight:700;color:#1F3864;margin-bottom:14px;
+  border-bottom:2px solid #dce3f3;padding-bottom:8px}
+/* Config */
+.cfg{display:flex;gap:20px;align-items:flex-end;flex-wrap:wrap}
+.cf{display:flex;flex-direction:column;gap:5px}
+.cl{display:flex;align-items:center;gap:6px;font-size:.78rem;font-weight:700;
+  color:#1F3864;text-transform:uppercase;letter-spacing:.4px}
+.ib{width:17px;height:17px;border-radius:50%;background:#4472C4;color:#fff;border:none;
+  cursor:default;font-size:.7rem;font-weight:700;line-height:17px;text-align:center;
+  flex-shrink:0;position:relative}
+.ib:hover .tip{display:block}
+.tip{display:none;position:absolute;left:22px;top:-6px;background:#1F3864;color:#fff;
+  font-size:.74rem;font-weight:400;padding:9px 13px;border-radius:7px;width:270px;
+  z-index:300;box-shadow:0 4px 18px rgba(0,0,0,.28);line-height:1.55;white-space:normal;pointer-events:none}
+.ci2{padding:9px 14px;border:2px solid #4472C4;border-radius:6px;font-size:.95rem;
+  font-family:Arial;font-weight:600;color:#1F3864;background:#f0f5ff;width:220px}
+.ci2:focus{outline:none;border-color:#1F3864;background:#fff}
+.ci2.err{border-color:#c62828;background:#fff5f5}
+.cv{padding:9px 14px;border:2px solid #c5cde0;border-radius:6px;font-size:.9rem;
+  font-weight:600;color:#555;background:#f5f5f5;text-align:center;width:150px}
+.cerr{color:#c62828;font-size:.8rem;font-weight:600;align-self:center}
+/* Summary */
+.sg{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:12px}
+.si{background:#f0f4fb;border-radius:8px;padding:12px 16px;text-align:center}
+.sv{font-size:1.3rem;font-weight:700;color:#1F3864}
+.sl{font-size:.72rem;color:#555;margin-top:2px}
+/* Table */
+.tw{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-size:.83rem;font-family:Arial;table-layout:fixed}
+col.sn  {width:38px}
+col.nm  {width:185px}
+col.nu  {width:95px}
+col.ca  {width:82px}
+col.mf  {width:90px}
+col.re  {width:175px}
+col.dl  {width:28px}
+thead th{background:#1F3864;color:#fff;padding:8px 7px;text-align:center;
+  font-weight:700;border:1px solid #16305a;white-space:nowrap}
+thead th.bc{background:#4472C4;border-color:#3561b0}
+thead th.bl{text-align:left}
+tbody td{padding:0;border:1px solid #c5cde0;vertical-align:middle}
+tbody tr:nth-child(even) td{background:#f5f8ff}
+tbody tr:hover td{background:#e8eef9}
+tbody tr.ex td{background:#FFFF99!important}
+tbody tr.ex:hover td{background:#FFFF66!important}
+td.sel{outline:2px solid #1F7ABF;outline-offset:-2px;z-index:1}
+td.sel-r{background:#CCE5FF!important;outline:1px solid #90CAF9;outline-offset:-1px}
+td.cps{outline:2px dashed #1F7ABF;outline-offset:-2px}
+.ci{width:100%;border:none;padding:6px 7px;font-size:.83rem;font-family:Arial;
+  background:transparent;color:#000;outline:none;display:block}
+.ci.l{text-align:left}.ci.c{text-align:center}
+.ci:focus{background:#fffde7;box-shadow:inset 0 0 0 2px #4472C4}
+.cc{padding:5px 6px;text-align:center;font-size:.83rem;color:#333}
+.v1{background:#C6EFCE;color:#276221;font-weight:700}
+.v3{background:#FFC7CE;color:#9C0006;font-weight:700}
+.s1{background:#C6EFCE;color:#276221;font-weight:700}
+.s2{background:#FFEB9C;color:#9C6500;font-weight:700}
+.s3{background:#FFC7CE;color:#9C0006;font-weight:700}
+.m1{color:#276221;font-weight:700}
+.m2{color:#9C0006;font-weight:700}
+.exc{display:flex;align-items:center;justify-content:center;gap:4px;padding:6px 6px;
+  cursor:pointer;font-weight:700;font-size:.83rem;color:#5d4e00}
+.exc:hover{background:#FFEE44!important}
+.exc .pen{font-size:.68rem;opacity:.5}
+tfoot td{font-weight:700;background:#BDD7EE;border:1px solid #b0bbd8;
+  padding:7px 7px;text-align:center;color:#000}
+.db{background:none;border:none;cursor:pointer;color:#c62828;font-size:.88rem;
+  padding:0 3px;width:100%;height:100%;display:flex;align-items:center;justify-content:center}
+.db:hover{color:#8b0000}
+.ra{display:flex;gap:10px;margin-top:12px;flex-wrap:wrap;align-items:center}
+.btn{padding:7px 17px;border:none;border-radius:6px;cursor:pointer;font-size:.83rem;font-weight:700}
+.btn:hover{opacity:.85}
+.ba{background:#1F3864;color:#fff}
+.bc2{background:#757575;color:#fff}
+.ph{font-size:.72rem;color:#666;background:#f0f4f8;border:1px solid #dde3ed;border-radius:4px;padding:4px 9px}
+.leg{display:flex;gap:12px;flex-wrap:wrap;margin-top:10px}
+.li{display:flex;align-items:center;gap:4px;font-size:.75rem;color:#444}
+.ld{width:11px;height:11px;border-radius:3px;display:inline-block;flex-shrink:0}
+.nc{background:#fffde7;border-left:4px solid #f9a825;border-radius:6px;
+  padding:12px 16px;margin-bottom:16px;font-size:.82rem;color:#4a3800;line-height:1.7}
+/* Approval modal */
+.mb{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);
+  z-index:9000;align-items:center;justify-content:center}
+.mb.on{display:flex}
+.md{background:#fff;border-radius:12px;padding:28px 32px;max-width:460px;width:90%;
+  box-shadow:0 8px 40px rgba(0,0,0,.3);text-align:center}
+.mi{font-size:2.2rem;margin-bottom:10px}
+.md h3{color:#b71c1c;font-size:1rem;margin-bottom:8px}
+.md p{color:#333;font-size:.87rem;line-height:1.55;margin-bottom:18px}
+.mbt{display:flex;gap:10px;justify-content:center}
+.bp{background:#1F3864;color:#fff}
+.bca{background:#9e9e9e;color:#fff}
+/* Exempt modal */
+.eb{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);
+  z-index:9500;align-items:center;justify-content:center}
+.eb.on{display:flex}
+.ed{background:#fff;border-radius:12px;padding:26px 30px;max-width:380px;width:90%;
+  box-shadow:0 8px 40px rgba(0,0,0,.3)}
+.ed h3{color:#1F3864;font-size:.98rem;margin-bottom:4px}
+.es{font-size:.8rem;color:#666;margin-bottom:18px}
+.ef{margin-bottom:14px}
+.ef label{display:block;font-size:.76rem;font-weight:700;color:#444;
+  text-transform:uppercase;letter-spacing:.3px;margin-bottom:4px}
+.ef input{width:100%;padding:9px 12px;border:2px solid #c5cde0;border-radius:6px;
+  font-size:.95rem;font-family:Arial}
+.ef input:focus{outline:none;border-color:#4472C4;background:#f0f5ff}
+.ef input[readonly]{background:#f0f0f0;color:#666;cursor:not-allowed}
+.ebt{display:flex;gap:10px;margin-top:18px}
+.esv{background:#1F3864;color:#fff;border:none;padding:9px 0;border-radius:6px;
+  font-size:.88rem;font-weight:700;cursor:pointer;flex:1}
+.esv:hover{background:#162a4d}
+.ecl{background:#9e9e9e;color:#fff;border:none;padding:9px 14px;border-radius:6px;
+  font-size:.88rem;font-weight:700;cursor:pointer}
+/* Tutorial */
+.tb{display:none;position:fixed;inset:0;z-index:99000}
+.tb.on{display:block}
+.ts{position:absolute;inset:0;background:rgba(0,0,0,.6);pointer-events:all}
+.th{position:fixed;border-radius:6px;box-shadow:0 0 0 9999px rgba(0,0,0,.6);
+  pointer-events:none;z-index:2;transition:all .38s cubic-bezier(.4,0,.2,1)}
+.tc{position:fixed;background:#fff;border-radius:12px;padding:20px 22px;
+  width:295px;box-shadow:0 8px 40px rgba(0,0,0,.35);z-index:3;pointer-events:all;
+  transition:all .38s cubic-bezier(.4,0,.2,1)}
+.tbg{display:inline-block;background:#4472C4;color:#fff;border-radius:20px;
+  padding:2px 10px;font-size:.71rem;font-weight:700;margin-bottom:8px}
+.tc h4{color:#1F3864;font-size:.93rem;margin-bottom:5px}
+.tc p{color:#444;font-size:.81rem;line-height:1.55;margin-bottom:13px}
+.tn2{display:flex;align-items:center;gap:8px}
+.tnx{background:#1F3864;color:#fff;border:none;border-radius:6px;padding:7px 14px;
+  font-size:.84rem;font-weight:700;cursor:pointer;flex:1}
+.tnx:hover{background:#162a4d}
+.tsk{background:none;border:none;color:#999;font-size:.77rem;cursor:pointer;text-decoration:underline}
+.tds{display:flex;gap:4px;justify-content:center;margin-top:9px}
+.td{width:6px;height:6px;border-radius:50%;background:#ddd;transition:background .2s}
+.td.on{background:#4472C4}
+#toast{position:fixed;bottom:22px;left:50%;transform:translateX(-50%);
+  background:#1F3864;color:#fff;padding:7px 18px;border-radius:20px;
+  font-size:.81rem;display:none;z-index:9999;box-shadow:0 2px 12px rgba(0,0,0,.3)}
+/* Review modal */
+.rv-bg{display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);
+  z-index:8000;align-items:flex-start;justify-content:center;padding:30px 16px;overflow-y:auto}
+.rv-bg.on{display:flex}
+.rv-box{background:#fff;border-radius:12px;width:100%;max-width:1350px;
+  box-shadow:0 10px 50px rgba(0,0,0,.35);display:flex;flex-direction:column;max-height:90vh}
+.rv-hdr{background:#1F3864;color:#fff;padding:16px 24px;border-radius:12px 12px 0 0;
+  display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
+.rv-hdr h2{font-size:1rem;font-weight:700}
+.rv-hdr .rv-sub{font-size:.8rem;opacity:.75;margin-top:2px}
+.rv-close{background:rgba(255,255,255,.15);border:none;color:#fff;
+  width:28px;height:28px;border-radius:50%;cursor:pointer;font-size:1.1rem;line-height:28px}
+.rv-body{overflow-y:auto;flex:1;padding:0}
+.rv-table{border-collapse:collapse;width:100%;font-size:.82rem;font-family:Arial}
+.rv-table th{background:#1F3864;color:#fff;padding:9px 10px;text-align:center;
+  border:1px solid #16305a;white-space:nowrap;position:sticky;top:0;z-index:2}
+.rv-table th.bc{background:#4472C4;border-color:#3561b0}
+.rv-table th.bl{text-align:left}
+.rv-table td{padding:7px 9px;border:1px solid #dde3ed;text-align:center;font-size:.82rem}
+.rv-table td.bl{text-align:left}
+.rv-table tr:nth-child(even) td{background:#f5f8ff}
+.rv-table tr.ex-rv td{background:#FFFF99!important;font-weight:700}
+.rv-table tr.tot td{background:#BDD7EE;font-weight:700}
+.rv1{background:#C6EFCE;color:#276221;font-weight:700;border-radius:4px;padding:2px 7px;display:inline-block}
+.rv3{background:#FFC7CE;color:#9C0006;font-weight:700;border-radius:4px;padding:2px 7px;display:inline-block}
+.rs1{background:#C6EFCE;color:#276221;font-weight:700;border-radius:4px;padding:2px 7px;display:inline-block}
+.rs2{background:#FFEB9C;color:#9C6500;font-weight:700;border-radius:4px;padding:2px 7px;display:inline-block}
+.rs3{background:#FFC7CE;color:#9C0006;font-weight:700;border-radius:4px;padding:2px 7px;display:inline-block}
+.rm1{color:#276221;font-weight:700}.rm2{color:#9C0006;font-weight:700}
+.rv-warn{background:#fff8e1;border:1px solid #ffc107;border-radius:6px;
+  padding:10px 16px;margin:12px 16px;font-size:.82rem;color:#5d4037}
+.rv-foot{padding:16px 20px;display:flex;gap:12px;justify-content:flex-end;
+  border-top:2px solid #eee;flex-shrink:0;background:#fff;border-radius:0 0 12px 12px}
+.btn-rvdl{background:#1a5c1a;color:#fff;border:none;padding:10px 26px;border-radius:7px;
+  font-size:.9rem;font-weight:700;cursor:pointer}
+.btn-rvdl:hover{background:#145214}
+.btn-rvcl{background:#9e9e9e;color:#fff;border:none;padding:10px 18px;border-radius:7px;
+  font-size:.9rem;font-weight:700;cursor:pointer}
 </style>
 </head>
 <body>
+
 <header>
   <h1>&#x1F4CA; Variation Sheet</h1>
-  <span class="hdate" id="hdate"></span>
+  <div class="hdr-r">
+    <span class="hdate" id="hdate"></span>
+    <button class="btn-tut" onclick="tutStart()">&#x1F393; Tutorial</button>
+    <button class="btn-dl" id="dlBtn" onclick="handleDownload()">
+      &#x2B07; Download Excel <span class="sp" id="sp"></span>
+    </button>
+  </div>
 </header>
 
 <div class="container">
-  <div class="card">
-    <div class="card-title">Summary</div>
-    <div class="sg">
-      <div class="si"><div class="sv" id="s-cl">0</div><div class="sl">Clients</div></div>
-      <div class="si"><div class="sv" id="s-sz">0</div><div class="sl">Total Size (Sq cm)</div></div>
-      <div class="si"><div class="sv" id="s-am">0</div><div class="sl">Total Amount (Rs)</div></div>
-      <div class="si"><div class="sv" id="s-av">-</div><div class="sl">Avg Yield</div></div>
-    </div>
-  </div>
 
-  <div class="card">
-    <div class="card-title">Client Variation Data
-      <span style="font-size:.76rem;color:#777;font-weight:400;margin-left:8px">Click to edit &nbsp;|&nbsp; Ctrl+C to copy selection &nbsp;|&nbsp; Ctrl+V to paste &nbsp;|&nbsp; Paste from Excel supported</span>
+<!-- CONFIG -->
+<div class="card" id="cfgCard">
+  <div class="card-title">Configuration &nbsp;<span style="font-size:.74rem;color:#c62828;font-weight:600">* Both fields required before download</span></div>
+  <div class="cfg">
+    <div class="cf">
+      <div class="cl">
+        MFN Value *
+        <button class="ib" tabindex="-1">i
+          <div class="tip">Please refer MFN value from the Supplement Request (SRR). It is the benchmark revenue figure used to calculate MFN Yield Variation for each client.</div>
+        </button>
+      </div>
+      <input class="ci2" id="mfnVal" type="number" min="0" placeholder="e.g. 160000" oninput="cfgChange()">
     </div>
-    <div class="tbl-wrap">
-      <table id="tbl">
-        <colgroup>
-          <col class="c-sn"><col class="c-name"><col class="c-num"><col class="c-num">
-          <col class="c-calc"><col class="c-calc"><col class="c-calc"><col class="c-calc">
-          <col class="c-rem"><col class="c-del">
-        </colgroup>
-        <thead>
-          <tr>
-            <th>S.N</th>
-            <th class="lft">Client Name</th>
-            <th>Size (Sq cm)</th>
-            <th>Amount (Rs)</th>
-            <th class="calc-hdr">Net Yield</th>
-            <th class="calc-hdr">Avg Yield</th>
-            <th class="calc-hdr">Variation</th>
-            <th class="calc-hdr">Space Alloc.</th>
-            <th class="lft">Remarks / Reason</th>
-            <th></th>
-          </tr>
-        </thead>
-        <tbody id="tbody"></tbody>
-        <tfoot>
-          <tr>
-            <td colspan="2" style="text-align:left;padding:8px 10px">Total</td>
-            <td id="f-sz">-</td><td id="f-am">-</td>
-            <td id="f-ny">-</td><td id="f-ay">-</td>
-            <td></td><td></td><td></td><td></td>
-          </tr>
-        </tfoot>
-      </table>
+    <div class="cf">
+      <div class="cl">Generic / Filler / Research / Survey Size *</div>
+      <input class="ci2" id="gfrsVal" type="number" min="0" placeholder="e.g. 800 (Sq cm)" oninput="cfgChange()">
     </div>
-    <div class="row-actions">
-      <button class="btn btn-add" onclick="addRow()">+ Add Row</button>
-      <button class="btn btn-clr" onclick="clearAll()">Clear All</button>
-      <span class="cp-hint">&#x1F4CB; Select cells then Ctrl+C &bull; Ctrl+V to paste &bull; Works with Excel/Sheets copy</span>
+    <div class="cf">
+      <div class="cl" style="color:#777">Actual Sold Volume</div>
+      <div class="cv" id="soldDisp">—</div>
     </div>
-    <div class="legend">
-      <div class="li"><span class="ld" style="background:#C6EFCE;border:1px solid #82c882"></span>Variation within ±20%</div>
-      <div class="li"><span class="ld" style="background:#FFEB9C;border:1px solid #f0c000"></span>Variation ±20-100%</div>
-      <div class="li"><span class="ld" style="background:#FFC7CE;border:1px solid #e57373"></span>Variation >±100%</div>
-      <div class="li"><span class="ld" style="background:#FFEB9C;border:1px solid #f0c000"></span>Space Alloc 20-25%</div>
-      <div class="li"><span class="ld" style="background:#FFC7CE;border:1px solid #e57373"></span>Space Alloc >25%</div>
+    <div class="cf">
+      <div class="cl" style="color:#777">MFN Benchmark Yield</div>
+      <div class="cv" id="mfnRateDisp">—</div>
     </div>
-  </div>
-
-  <div class="note-card">
-    <strong>Notes:</strong><br>
-    - Variation outside <strong>&#177;20%</strong> requires <strong>National Sales Head</strong> approval (Generic / Research clients exempt).<br>
-    - Space Allocation above <strong>25%</strong> requires <strong>Sameer Sir</strong> approval (Generic / Research clients exempt).<br>
-    - <em>Input your comment with reason where Variation is more than 30%</em> in the Remarks / Reason column.
-  </div>
-
-  <div class="dl-row">
-    <button class="btn btn-dl" id="dlBtn" onclick="handleDownload()">
-      Download Excel <span class="spinner" id="sp"></span>
-    </button>
+    <div class="cerr" id="cfgErr"></div>
   </div>
 </div>
 
-<div class="modal-bg" id="modalBg">
-  <div class="modal">
-    <div class="m-icon" id="mIcon"></div>
+<!-- SUMMARY -->
+<div class="card">
+  <div class="card-title">Summary</div>
+  <div class="sg">
+    <div class="si"><div class="sv" id="sCl">0</div><div class="sl">Clients</div></div>
+    <div class="si"><div class="sv" id="sSz">0</div><div class="sl">Total Size (Sq cm)</div></div>
+    <div class="si"><div class="sv" id="sAm">0</div><div class="sl">Total Amount (Rs)</div></div>
+    <div class="si"><div class="sv" id="sAv">—</div><div class="sl">Avg Yield</div></div>
+    <div class="si"><div class="sv" id="sMr">—</div><div class="sl">MFN Benchmark</div></div>
+  </div>
+</div>
+
+<!-- TABLE -->
+<div class="card">
+  <div class="card-title">Client Variation Data
+    <span style="font-size:.73rem;color:#777;font-weight:400;margin-left:8px">
+      Click to edit &nbsp;|&nbsp; Ctrl+C copy &nbsp;|&nbsp; Ctrl+V paste &nbsp;|&nbsp; Excel paste supported
+    </span>
+  </div>
+  <div class="tw">
+    <table id="tbl">
+      <colgroup>
+        <col class="sn"><col class="nm">
+        <col class="nu"><col class="nu">
+        <col class="ca"><col class="ca"><col class="ca"><col class="ca"><col class="mf">
+        <col class="re"><col class="dl">
+      </colgroup>
+      <thead>
+        <tr>
+          <th>S.N</th>
+          <th class="bl">Client Name</th>
+          <th>Size (Sq cm)</th>
+          <th>Amount (Rs)</th>
+          <th class="bc">Net Yield</th>
+          <th class="bc">Avg Yield</th>
+          <th class="bc">Variation</th>
+          <th class="bc">Space Alloc.</th>
+          <th class="bc">MFN Yield Var.</th>
+          <th class="bl">Remarks / Reason</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody id="tbody"></tbody>
+      <tfoot>
+        <tr>
+          <td colspan="2" style="text-align:left;padding:7px 9px">Total</td>
+          <td id="fSz">—</td><td id="fAm">—</td>
+          <td id="fNy">—</td><td id="fAy">—</td>
+          <td></td><td></td><td id="fMr">—</td><td></td><td></td>
+        </tr>
+      </tfoot>
+    </table>
+  </div>
+  <div class="ra">
+    <button class="btn ba" onclick="addRow()">+ Add Row</button>
+    <button class="btn bc2" onclick="clearAll()">Clear All</button>
+    <span class="ph">&#x1F4CB; Select cells &rarr; Ctrl+C &bull; Ctrl+V paste &bull; Works with Excel / Sheets</span>
+  </div>
+  <div class="leg">
+    <div class="li"><span class="ld" style="background:#C6EFCE;border:1px solid #82c882"></span>Variation &ge;100% (Green)</div>
+    <div class="li"><span class="ld" style="background:#FFC7CE;border:1px solid #e57373"></span>Variation &lt;100% (Red)</div>
+    <div class="li"><span class="ld" style="background:#FFFF99;border:1px solid #cccc00"></span>Generic / Filler / Research / Survey</div>
+    <div class="li"><span class="ld" style="background:#FFC7CE;border:1px solid #e57373"></span>Space Alloc &gt;25%</div>
+  </div>
+</div>
+
+<!-- NOTES -->
+<div class="nc">
+  <strong>Notes:</strong><br>
+  - All Variation requires approval from <strong>National Sales Head</strong>.<br>
+  - Space Allocation above <strong>25%</strong> requires <strong>Sameer Sir</strong> approval.<br>
+  - <em>Input your comment / reason in the Remarks column where Variation is more than 30%.</em>
+</div>
+
+</div>
+
+<!-- APPROVAL MODAL -->
+<div class="mb" id="modalBg">
+  <div class="md">
+    <div class="mi" id="mIcon"></div>
     <h3 id="mTitle"></h3>
     <p id="mMsg"></p>
-    <div class="modal-btns">
-      <button class="btn btn-proc" onclick="proceedModal()">Proceed Anyway</button>
-      <button class="btn btn-cncl" onclick="cancelModal()">Cancel</button>
+    <div class="mbt">
+      <button class="btn bp" onclick="proceedModal()">Proceed Anyway</button>
+      <button class="btn bca" onclick="cancelModal()">Cancel</button>
     </div>
   </div>
 </div>
 
-<div id="paste-info"></div>
+<!-- EXEMPT MODAL -->
+<div class="eb" id="epBg">
+  <div class="ed">
+    <h3 id="epTitle">Enter Amount</h3>
+    <div class="es" id="epSub"></div>
+    <div class="ef">
+      <label>Size (Sq cm) — auto from config</label>
+      <input type="number" id="epSize" readonly>
+    </div>
+    <div class="ef">
+      <label>Amount (Rs)</label>
+      <input type="number" id="epAmnt" min="0" placeholder="e.g. 0" onkeydown="epKey(event)">
+    </div>
+    <div class="ebt">
+      <button class="esv" onclick="epSave()">&#x2713; Save</button>
+      <button class="ecl" onclick="epClose()">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<!-- TUTORIAL -->
+<div class="tb" id="tutBg">
+  <div class="ts" onclick="tutEnd()"></div>
+  <div class="th" id="tutHole"></div>
+  <div class="tc" id="tutCard">
+    <div class="tbg" id="tutBadge"></div>
+    <h4 id="tutTitle"></h4>
+    <p id="tutText"></p>
+    <div class="tn2">
+      <button class="tsk" onclick="tutEnd()">Skip</button>
+      <button class="tnx" id="tutNext" onclick="tutStep()">Next &rarr;</button>
+    </div>
+    <div class="tds" id="tutDots"></div>
+  </div>
+</div>
+
+<div id="toast"></div>
+
+<!-- REVIEW MODAL -->
+<div class="rv-bg" id="rvBg">
+  <div class="rv-box">
+    <div class="rv-hdr">
+      <div>
+        <h2>&#x1F4CB; Review Before Download</h2>
+        <div class="rv-sub" id="rvSub"></div>
+      </div>
+      <button class="rv-close" onclick="rvClose()">&#x2715;</button>
+    </div>
+    <div class="rv-body">
+      <div id="rvWarnings"></div>
+      <table class="rv-table">
+        <thead>
+          <tr>
+            <th>S.N</th><th class="bl">Client Name</th>
+            <th>Size (Sq cm)</th><th>Amount (Rs)</th>
+            <th class="bc">Net Yield</th><th class="bc">Avg Yield</th>
+            <th class="bc">Variation</th><th class="bc">Space Alloc.</th>
+            <th class="bc">MFN Yield Var.</th><th class="bl">Remarks</th>
+          </tr>
+        </thead>
+        <tbody id="rvTbody"></tbody>
+      </table>
+    </div>
+    <div class="rv-foot">
+      <button class="btn-rvcl" onclick="rvClose()">&#x2190; Back to Edit</button>
+      <button class="btn-rvdl" id="rvDlBtn" onclick="rvConfirmDownload()">&#x2B07; Confirm &amp; Download Excel</button>
+    </div>
+  </div>
+</div>
 
 <script>
-// ═══════════════════════════════════════════════════════════════
-//  STATE
-// ═══════════════════════════════════════════════════════════════
-const COLS     = ['name','size','amnt','reason'];  // editable column keys
-const COL_IDX  = {name:0, size:1, amnt:2, reason:3}; // within editable cols
-// Table columns (0-based): 0=SN, 1=name, 2=size, 3=amnt, 4=netY, 5=avgY, 6=var, 7=sa, 8=reason, 9=del
-const EDIT_COLS = [1,2,3,8]; // column indices that are editable
+'use strict';
 
-const EXEMPT = s => ['generic','research'].includes((s||'').trim().toLowerCase());
-const safeN  = v => { const n=parseFloat(v); return isNaN(n)?0:n; };
+// ── Constants ──────────────────────────────────────────────
+const EX_KW = ['generic','filler','research','survey'];
+const isEx  = n => EX_KW.some(k => (n||'').toLowerCase().includes(k));
+const safeN = v => { const f = parseFloat(v); return isNaN(f) ? 0 : f; };
+const BLANK = () => ({ name:'', size:'', amnt:'', reason:'' });
+const inFmt = n => n.toLocaleString('en-IN');
 
-let rows       = Array.from({length:12}, ()=>({name:'',size:'',amnt:'',reason:''}));
-let modalQueue = [];
+// ── State ──────────────────────────────────────────────────
+let rows     = Array.from({length:15}, BLANK);
+let gfrsAmnt = '';          // Amount for the fixed GFRS row
+let mq       = [];
+let selStart = null, selEnd = null, selecting = false;
+let cpBuf    = null, cpRange = null;
+let epRow    = null;
 
-// Selection state
-let selStart   = null;  // {r, c} grid coords
-let selEnd     = null;
-let selecting  = false;
-let copyBuffer = null;  // 2D array of text
-let copyRange  = null;  // {r1,c1,r2,c2}
+// ── Config ─────────────────────────────────────────────────
+const getMFN  = () => safeN(document.getElementById('mfnVal').value);
+const getGFRS = () => safeN(document.getElementById('gfrsVal').value);
+const getMFNRate = () => {
+  const {tSz} = getTotals();
+  const m = getMFN();
+  const gSz = getGFRS();
+  const actualSold = tSz - gSz;   // Total Size minus GFRS = actual sold volume
+  return actualSold > 0 ? m / actualSold : 0;
+};
 
-// ═══════════════════════════════════════════════════════════════
-//  INIT
-// ═══════════════════════════════════════════════════════════════
-document.getElementById('hdate').textContent =
-  new Date().toLocaleDateString('en-IN',{day:'2-digit',month:'short',year:'numeric'});
-render();
-initKeyboard();
+function cfgChange(){
+  document.getElementById('cfgErr').textContent = '';
+  ['mfnVal','gfrsVal'].forEach(id => document.getElementById(id).classList.remove('err'));
+  // GFRS row is separate — just re-render to show/update it at the bottom
+  render();
+}
 
-// ═══════════════════════════════════════════════════════════════
-//  CALCULATIONS
-// ═══════════════════════════════════════════════════════════════
+function refreshAll(){
+  const {tSz, tAm, avg} = getTotals();
+  const mfn  = getMFN();
+  const gSz  = getGFRS();
+  const actualSold = tSz - gSz;
+  const rate = actualSold > 0 ? mfn / actualSold : 0;
+  // Config displays
+  document.getElementById('soldDisp').textContent    = actualSold > 0 ? inFmt(actualSold) : '—';
+  document.getElementById('mfnRateDisp').textContent = rate ? rate.toFixed(0) : '—';
+  // Summary
+  const filled = rows.filter(r => r.name.trim() && safeN(r.size)>0 && !isEx(r.name));
+  document.getElementById('sCl').textContent = filled.length;
+  document.getElementById('sSz').textContent = tSz  ? inFmt(tSz)  : '0';
+  document.getElementById('sAm').textContent = tAm  ? inFmt(tAm)  : '0';
+  document.getElementById('sAv').textContent = avg  ? avg.toFixed(0) : '—';
+  document.getElementById('sMr').textContent = rate ? rate.toFixed(0) : '—';
+  // Footer
+  document.getElementById('fSz').textContent = tSz ? inFmt(tSz) : '—';
+  document.getElementById('fAm').textContent = tAm ? inFmt(tAm) : '—';
+  document.getElementById('fNy').textContent = avg ? avg.toFixed(0) : '—';
+  document.getElementById('fAy').textContent = avg ? avg.toFixed(0) : '—';
+  document.getElementById('fMr').textContent = rate ? rate.toFixed(0) : '—';
+}
+
+// ── Calculations ───────────────────────────────────────────
 function getTotals(){
-  const active = rows.filter(r=>r.name.trim()&&safeN(r.size)>0);
-  const tSz = active.reduce((s,r)=>s+safeN(r.size),0);
-  const tAm = active.reduce((s,r)=>s+safeN(r.amnt),0);
-  const avg = tSz>0 ? tAm/tSz : 0;
-  return {tSz,tAm,avg};
-}
-function calcRow(r,avg,tSz){
-  const sz=safeN(r.size), am=safeN(r.amnt);
-  const net= sz>0 ? am/sz : 0;
-  const vari= avg>0&&sz>0 ? (net-avg)/avg : 0;
-  const sa  = tSz>0&&sz>0 ? sz/tSz : 0;
-  return {sz,am,net,vari,sa};
+  // Client rows only (non-exempt)
+  const active = rows.filter(r => r.name.trim() && safeN(r.size)>0);
+  let tSz = active.reduce((s,r) => s+safeN(r.size), 0);
+  let tAm = active.reduce((s,r) => s+safeN(r.amnt), 0);
+  // Add GFRS row to totals
+  const gSz = getGFRS();
+  const gAm = safeN(gfrsAmnt);
+  if(gSz > 0){ tSz += gSz; tAm += gAm; }
+  const avg  = tSz > 0 ? tAm/tSz : 0;
+  return {tSz, tAm, avg};
 }
 
-// ═══════════════════════════════════════════════════════════════
-//  RENDER
-// ═══════════════════════════════════════════════════════════════
+function calcRow(r, avg, tSz){
+  const sz = safeN(r.size), am = safeN(r.amnt), ex = isEx(r.name);
+  const net  = sz > 0 ? am/sz : 0;
+  const vari = avg>0 && sz>0 && !ex ? net/avg : 0;
+  const sa   = tSz>0 && sz>0 ? sz/tSz : 0;
+  const mfnR = getMFNRate();
+  const mfnV = mfnR>0 && sz>0 && !ex ? net/mfnR : 0;
+  return {sz, am, net, vari, sa, mfnV, ex};
+}
+
+// ── Render ─────────────────────────────────────────────────
+const esc = s => String(s).replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+
 function render(){
-  const {tSz,tAm,avg} = getTotals();
+  const {tSz, tAm, avg} = getTotals();
   const tbody = document.getElementById('tbody');
   tbody.innerHTML = '';
 
-  rows.forEach((row,ri)=>{
-    const {sz,net,vari,sa} = calcRow(row,avg,tSz);
-    const hasData = row.name.trim()&&sz>0;
-    const vp=vari*100, sp=sa*100;
+  rows.forEach((row, ri) => {
+    const {sz, net, vari, sa, mfnV, ex} = calcRow(row, avg, tSz);
+    const has = row.name.trim() && sz > 0;
+    const vp = vari*100, sp = sa*100, mp = mfnV*100;
 
-    let vCls='cc', vTxt='—';
-    if(hasData){
-      vTxt=vp.toFixed(0)+'%';
-      vCls= vp>=-20&&vp<=20 ? 'cc v-ok' : Math.abs(vp)<=100 ? 'cc v-warn' : 'cc v-bad';
+    // Variation colour: green 80-220, warn 0-300, bad else
+    let vC='cc', vT='—';
+    if(has && !ex){
+      vT = vp.toFixed(0)+'%';
+      vC = vp>=100 ? 'cc v1' : 'cc v3';
     }
-    let sCls='cc', sTxt='—';
-    if(hasData){
-      sTxt=sp.toFixed(0)+'%';
-      sCls= sp>25 ? 'cc s-bad' : sp>=20 ? 'cc s-warn' : 'cc s-ok';
-    }
+    // Space alloc
+    let sC='cc', sT='—';
+    if(has){ sT=sp.toFixed(0)+'%'; sC=sp>25?'cc s3':sp>=20?'cc s2':'cc s1'; }
+    // MFN var
+    let mC='cc', mT='—';
+    if(has && !ex && getMFNRate()>0){ mT=mp.toFixed(0)+'%'; mC=mp>=100?'cc m1':'cc m2'; }
 
-    const tr=document.createElement('tr');
-    tr.dataset.ri=ri;
-    // Cols: 0=SN,1=name,2=size,3=amnt,4=net,5=avg,6=var,7=sa,8=reason,9=del
-    tr.innerHTML=`
+    const tr = document.createElement('tr');
+    tr.dataset.ri = ri;
+    if(ex) tr.classList.add('ex');
+
+    // Size/Amount cells: exempt = clickable display, normal = input
+    const szC = ex
+      ? `<td data-r="${ri}" data-c="2" class="cc exc" onclick="epOpen(${ri})" title="Click to edit"><span>${sz||'—'}</span><span class="pen">✎</span></td>`
+      : `<td data-r="${ri}" data-c="2"><input class="ci c" type="number" min="0" value="${esc(row.size)}" data-r="${ri}" data-f="size" oninput="upd(${ri},'size',this.value)" placeholder="0"></td>`;
+    const amC = ex
+      ? `<td data-r="${ri}" data-c="3" class="cc exc" onclick="epOpen(${ri})" title="Click to edit"><span>${row.amnt!==''&&row.amnt!==undefined?row.amnt:'—'}</span><span class="pen">✎</span></td>`
+      : `<td data-r="${ri}" data-c="3"><input class="ci c" type="number" min="0" value="${esc(row.amnt)}" data-r="${ri}" data-f="amnt" oninput="upd(${ri},'amnt',this.value)" placeholder="0"></td>`;
+
+    tr.innerHTML = `
 <td class="cc" data-r="${ri}" data-c="0">${ri+1}</td>
-<td data-r="${ri}" data-c="1"><input class="ci lft" value="${esc(row.name)}" placeholder="Client name" data-r="${ri}" data-f="name"></td>
-<td data-r="${ri}" data-c="2"><input class="ci ctr" type="number" min="0" value="${row.size}" placeholder="0" data-r="${ri}" data-f="size"></td>
-<td data-r="${ri}" data-c="3"><input class="ci ctr" type="number" min="0" value="${row.amnt}" placeholder="0" data-r="${ri}" data-f="amnt"></td>
-<td class="cc" data-r="${ri}" data-c="4">${hasData?net.toFixed(0):'—'}</td>
-<td class="cc" data-r="${ri}" data-c="5">${hasData?avg.toFixed(0):'—'}</td>
-<td class="${vCls}" data-r="${ri}" data-c="6">${vTxt}</td>
-<td class="${sCls}" data-r="${ri}" data-c="7">${sTxt}</td>
-<td data-r="${ri}" data-c="8"><input class="ci lft" value="${esc(row.reason)}" placeholder="Remarks / comments..." data-r="${ri}" data-f="reason"></td>
-<td data-r="${ri}" data-c="9"><button class="del-btn" onclick="delRow(${ri})">&#x2715;</button></td>`;
+<td data-r="${ri}" data-c="1"><input class="ci l" value="${esc(row.name)}" data-r="${ri}" data-f="name" oninput="upd(${ri},'name',this.value)" placeholder="Client name"></td>
+${szC}
+${amC}
+<td class="cc" data-r="${ri}" data-c="4">${has?net.toFixed(0):'—'}</td>
+<td class="cc" data-r="${ri}" data-c="5">${has?avg.toFixed(0):'—'}</td>
+<td class="${vC}" data-r="${ri}" data-c="6" style="padding:5px 4px">${vT}</td>
+<td class="${sC}" data-r="${ri}" data-c="7" style="padding:5px 4px">${sT}</td>
+<td class="${mC}" data-r="${ri}" data-c="8" style="padding:5px 4px">${mT}</td>
+<td data-r="${ri}" data-c="9"><input class="ci l" value="${esc(row.reason)}" data-r="${ri}" data-f="reason" oninput="upd(${ri},'reason',this.value)" placeholder="Remarks / comments..."></td>
+<td data-r="${ri}" data-c="10"><button class="db" onclick="delRow(${ri})">&#x2715;</button></td>`;
     tbody.appendChild(tr);
   });
 
-  // Re-attach input listeners
-  tbody.querySelectorAll('input.ci').forEach(inp=>{
-    inp.addEventListener('input', e=>{
-      rows[+e.target.dataset.r][e.target.dataset.f] = e.target.value;
-      renderCalcs();
-    });
-    inp.addEventListener('mousedown', e=>{
-      // Set selStart to this cell so Ctrl+V knows the paste target
-      const r=+inp.dataset.r;
-      const colMap={name:1,size:2,amnt:3,reason:8};
-      const c=colMap[inp.dataset.f];
-      selStart={r,c}; selEnd={r,c};
-      applySelection();
-      // Don't stopPropagation — let TD handler also fire for drag-select start
-    });
-    // Arrow key navigation inside inputs
-    inp.addEventListener('keydown', inputKeyNav);
-  });
-
-  // Mouse selection on TD
-  tbody.querySelectorAll('td').forEach(td=>{
-    td.addEventListener('mousedown', tdMouseDown);
-    td.addEventListener('mouseover', tdMouseOver);
-  });
-
-  renderCalcs();
-  applySelection();
-}
-
-function renderCalcs(){
-  const {tSz,tAm,avg} = getTotals();
-  // Update computed cells without full re-render
-  rows.forEach((row,ri)=>{
-    const {sz,net,vari,sa}=calcRow(row,avg,tSz);
-    const hasData=row.name.trim()&&sz>0;
-    const vp=vari*100, sp=sa*100;
-
-    const tr=document.querySelector(`tr[data-ri="${ri}"]`);
-    if(!tr)return;
-
-    const cells=tr.querySelectorAll('td');
-    // net yield [4], avg yield [5], variation [6], space alloc [7]
-    cells[4].textContent=hasData?net.toFixed(0):'—';
-    cells[5].textContent=hasData?avg.toFixed(0):'—';
-
-    cells[6].textContent=hasData?vp.toFixed(0)+'%':'—';
-    cells[6].className='cc'+(hasData?(vp>=-20&&vp<=20?' v-ok':Math.abs(vp)<=100?' v-warn':' v-bad'):'');
-
-    cells[7].textContent=hasData?sp.toFixed(0)+'%':'—';
-    cells[7].className='cc'+(hasData?(sp>25?' s-bad':sp>=20?' s-warn':' s-ok'):'');
-  });
-
-  // Footer
-  document.getElementById('f-sz').textContent = tSz?tSz.toLocaleString('en-IN'):'—';
-  document.getElementById('f-am').textContent = tAm?tAm.toLocaleString('en-IN'):'—';
-  document.getElementById('f-ny').textContent = avg?avg.toFixed(0):'—';
-  document.getElementById('f-ay').textContent = avg?avg.toFixed(0):'—';
-
-  const filled=rows.filter(r=>r.name.trim()&&safeN(r.size)>0);
-  document.getElementById('s-cl').textContent=filled.length||0;
-  document.getElementById('s-sz').textContent=tSz?tSz.toLocaleString('en-IN'):'0';
-  document.getElementById('s-am').textContent=tAm?tAm.toLocaleString('en-IN'):'0';
-  document.getElementById('s-av').textContent=avg?avg.toFixed(0):'—';
-}
-
-function esc(s){return String(s).replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}
-
-// ═══════════════════════════════════════════════════════════════
-//  ROW CRUD
-// ═══════════════════════════════════════════════════════════════
-function addRow(){rows.push({name:'',size:'',amnt:'',reason:''});render()}
-function delRow(i){rows.splice(i,1);if(!rows.length)rows=[{name:'',size:'',amnt:'',reason:''}];selStart=selEnd=null;render()}
-function clearAll(){if(confirm('Clear all rows?')){rows=Array.from({length:12},()=>({name:'',size:'',amnt:'',reason:''}));selStart=selEnd=null;render()}}
-
-// ═══════════════════════════════════════════════════════════════
-//  SELECTION SYSTEM
-// ═══════════════════════════════════════════════════════════════
-function tdMouseDown(e){
-  if(e.button!==0)return;
-  const td=e.currentTarget;
-  const r=+td.dataset.r, c=+td.dataset.c;
-  if(c===9)return; // delete col
-  if(c===1||c===2||c===3||c===8) return; // let input handle focus
-
-  e.preventDefault();
-  selStart={r,c}; selEnd={r,c}; selecting=true;
-  applySelection();
-}
-function tdMouseOver(e){
-  if(!selecting)return;
-  const td=e.currentTarget;
-  const r=+td.dataset.r, c=+td.dataset.c;
-  if(c===9)return;
-  selEnd={r,c};
-  applySelection();
-}
-document.addEventListener('mouseup',()=>{selecting=false});
-document.addEventListener('mousedown',e=>{
-  if(!e.target.closest('#tbl')){selStart=selEnd=null;applySelection()}
-});
-
-function applySelection(){
-  document.querySelectorAll('#tbody td').forEach(td=>td.classList.remove('sel','sel-range','copy-source'));
-  document.querySelectorAll('#tbody td.copy-source').forEach(td=>td.classList.remove('copy-source'));
-  if(!selStart)return;
-
-  // Copy source outline
-  if(copyRange){
-    const {r1,c1,r2,c2}=copyRange;
-    for(let r=r1;r<=r2;r++) for(let c=c1;c<=c2;c++){
-      const td=getCell(r,c);
-      if(td)td.classList.add('copy-source');
-    }
+  // ── Fixed GFRS row at bottom ──────────────────────
+  const gSz  = getGFRS();
+  const {tSz: fullTSz, tAm: fullTAm, avg: fullAvg} = getTotals();
+  if(gSz > 0){
+    const gAm  = safeN(gfrsAmnt);
+    const gNet = gSz > 0 ? gAm / gSz : 0;
+    const gSa  = fullTSz > 0 ? gSz / fullTSz : 0;
+    const gTr  = document.createElement('tr');
+    gTr.classList.add('ex');
+    gTr.dataset.ri = 'gfrs';
+    gTr.innerHTML = `
+<td class="cc">${rows.length + 1}</td>
+<td class="cc" style="text-align:left;font-weight:700;color:#5d4e00">Generic / Filler / Research / Survey</td>
+<td class="cc" style="font-weight:700;color:#5d4e00">${gSz.toLocaleString('en-IN')}</td>
+<td class="cc exc" onclick="gfrsEditAmnt()" title="Click to set amount" style="cursor:pointer">
+  <span style="font-weight:700;color:#5d4e00">${gAm > 0 ? gAm.toLocaleString('en-IN') : '—'}</span>
+  <span class="pen">✎</span>
+</td>
+<td class="cc">${gNet > 0 ? gNet.toFixed(0) : '—'}</td>
+<td class="cc">${fullAvg > 0 ? fullAvg.toFixed(0) : '—'}</td>
+<td class="cc">—</td>
+<td class="cc">${gSa > 0 ? (gSa*100).toFixed(0)+'%' : '—'}</td>
+<td class="cc">—</td>
+<td class="cc" style="color:#aaa;font-style:italic">Exempt from variation</td>
+<td class="cc"></td>`;
+    tbody.appendChild(gTr);
   }
 
-  if(!selEnd){
-    getCell(selStart.r,selStart.c)?.classList.add('sel');
+  // Attach listeners
+  tbody.querySelectorAll('input.ci').forEach(inp => {
+    inp.addEventListener('mousedown', () => {
+      const td = inp.closest('td'); if(!td) return;
+      selStart = {r:+td.dataset.r, c:+td.dataset.c};
+      selEnd   = {r:+td.dataset.r, c:+td.dataset.c};
+      applySel();
+    });
+    inp.addEventListener('keydown', kNav);
+  });
+  tbody.querySelectorAll('td').forEach(td => {
+    td.addEventListener('mousedown', tdDown);
+    td.addEventListener('mouseover', tdOver);
+  });
+
+  refreshAll();
+  applySel();
+}
+
+// ── Row CRUD ───────────────────────────────────────────────
+function upd(i, f, v){
+  rows[i][f] = v;
+  if(f==='name' && isEx(v)){
+    const g = getGFRS();
+    if(g) rows[i].size = String(g);
+  }
+  // Lightweight recalc — just update computed cells without full re-render
+  lightCalc(i);
+  refreshAll();
+}
+
+function lightCalc(ri){
+  const {tSz, avg} = getTotals();
+  const tr = document.querySelector(`tr[data-ri="${ri}"]`);
+  if(!tr) return;
+  const row = rows[ri];
+  const {sz, net, vari, sa, mfnV, ex} = calcRow(row, avg, tSz);
+  const has = row.name.trim() && sz>0;
+  const cells = tr.querySelectorAll('td');
+  const vp=vari*100, sp=sa*100, mp=mfnV*100;
+  cells[4].textContent = has ? net.toFixed(0) : '—';
+  cells[5].textContent = has ? avg.toFixed(0) : '—';
+  let vC='cc',vT='—';
+  if(has&&!ex){vT=vp.toFixed(0)+'%';vC=vp>=100?'cc v1':'cc v3';}
+  cells[6].textContent=vT; cells[6].className=vC;
+  let sC='cc',sT='—';
+  if(has){sT=sp.toFixed(0)+'%';sC=sp>25?'cc s3':sp>=20?'cc s2':'cc s1';}
+  cells[7].textContent=sT; cells[7].className=sC;
+  let mC='cc',mT='—';
+  if(has&&!ex&&getMFNRate()>0){mT=mp.toFixed(0)+'%';mC=mp>=100?'cc m1':'cc m2';}
+  cells[8].textContent=mT; cells[8].className=mC;
+  // Also refresh all other rows' avg (it changes globally)
+  rows.forEach((_,i) => { if(i!==ri) lightCalcSilent(i, avg, tSz); });
+}
+
+function lightCalcSilent(ri, avg, tSz){
+  const tr = document.querySelector(`tr[data-ri="${ri}"]`);
+  if(!tr) return;
+  const row = rows[ri];
+  const {sz, net, vari, sa, mfnV, ex} = calcRow(row, avg, tSz);
+  const has = row.name.trim() && sz>0;
+  const cells = tr.querySelectorAll('td');
+  const vp=vari*100, sp=sa*100, mp=mfnV*100;
+  cells[4].textContent = has?net.toFixed(0):'—';
+  cells[5].textContent = has?avg.toFixed(0):'—';
+  let vC='cc',vT='—';
+  if(has&&!ex){vT=vp.toFixed(0)+'%';vC=vp>=100?'cc v1':'cc v3';}
+  cells[6].textContent=vT; cells[6].className=vC;
+  let sC='cc',sT='—';
+  if(has){sT=sp.toFixed(0)+'%';sC=sp>25?'cc s3':sp>=20?'cc s2':'cc s1';}
+  cells[7].textContent=sT; cells[7].className=sC;
+  let mC='cc',mT='—';
+  if(has&&!ex&&getMFNRate()>0){mT=mp.toFixed(0)+'%';mC=mp>=100?'cc m1':'cc m2';}
+  cells[8].textContent=mT; cells[8].className=mC;
+}
+
+function addRow(){ rows.push(BLANK()); render(); }
+function delRow(i){ rows.splice(i,1); if(!rows.length) rows=[BLANK()]; selStart=selEnd=null; render(); }
+function clearAll(){ if(confirm('Clear all rows?')){ rows=Array.from({length:15},BLANK); gfrsAmnt=''; selStart=selEnd=null; render(); } }
+
+// ── Exempt prompt ──────────────────────────────────────────
+function epOpen(ri){
+  epRow = ri;
+  const row = rows[ri], g = getGFRS();
+  document.getElementById('epTitle').textContent = 'Enter Amount — '+(row.name||'Exempt Row');
+  document.getElementById('epSub').textContent   = 'Size is auto-filled from config ('+( g||'—')+' Sq cm).';
+  document.getElementById('epSize').value = g || row.size || '';
+  document.getElementById('epAmnt').value = row.amnt || '';
+  document.getElementById('epBg').classList.add('on');
+  setTimeout(() => document.getElementById('epAmnt').focus(), 60);
+}
+function epSave(){
+  if(epRow===null) return;
+  if(epRow === 'gfrs'){
+    gfrsAmnt = document.getElementById('epAmnt').value;
+    epClose(); render();
     return;
   }
-  const r1=Math.min(selStart.r,selEnd.r), r2=Math.max(selStart.r,selEnd.r);
-  const c1=Math.min(selStart.c,selEnd.c), c2=Math.max(selStart.c,selEnd.c);
-  for(let r=r1;r<=r2;r++) for(let c=c1;c<=c2;c++){
-    const td=getCell(r,c);
-    if(!td)continue;
-    td.classList.add(r===selStart.r&&c===selStart.c?'sel':'sel-range');
-  }
+  rows[epRow].size = String(getGFRS() || document.getElementById('epSize').value);
+  rows[epRow].amnt = document.getElementById('epAmnt').value;
+  epClose(); render();
+}
+function epClose(){ document.getElementById('epBg').classList.remove('on'); epRow=null; }
+function epKey(e){ if(e.key==='Enter') epSave(); if(e.key==='Escape') epClose(); }
+
+// GFRS amount edit
+function gfrsEditAmnt(){
+  const g = getGFRS();
+  document.getElementById('epTitle').textContent = 'Enter Amount — Generic/Filler/Research/Survey';
+  document.getElementById('epSub').textContent   = 'Size is fixed at '+inFmt(g)+' Sq cm from config.';
+  document.getElementById('epSize').value = g || '';
+  document.getElementById('epAmnt').value = gfrsAmnt || '';
+  epRow = 'gfrs'; // special marker
+  document.getElementById('epBg').classList.add('on');
+  setTimeout(() => document.getElementById('epAmnt').focus(), 60);
 }
 
-function getCell(r,c){
-  return document.querySelector(`#tbody td[data-r="${r}"][data-c="${c}"]`);
+// ── Selection ──────────────────────────────────────────────
+function tdDown(e){
+  if(e.button!==0) return;
+  const td=e.currentTarget, r=+td.dataset.r, c=+td.dataset.c;
+  if(c===10) return;
+  if([1,2,3,9].includes(c)) return;
+  e.preventDefault();
+  selStart={r,c}; selEnd={r,c}; selecting=true; applySel();
 }
+function tdOver(e){
+  if(!selecting) return;
+  const td=e.currentTarget, r=+td.dataset.r, c=+td.dataset.c;
+  if(c===10) return;
+  selEnd={r,c}; applySel();
+}
+document.addEventListener('mouseup', () => selecting=false);
+document.addEventListener('mousedown', e => { if(!e.target.closest('#tbl')){ selStart=selEnd=null; applySel(); } });
 
-function getSelRange(){
-  if(!selStart)return null;
+const getCell = (r,c) => document.querySelector(`#tbody td[data-r="${r}"][data-c="${c}"]`);
+function getSelRng(){
+  if(!selStart) return null;
   const e=selEnd||selStart;
-  return{r1:Math.min(selStart.r,e.r),r2:Math.max(selStart.r,e.r),
-         c1:Math.min(selStart.c,e.c),c2:Math.max(selStart.c,e.c)};
+  return {r1:Math.min(selStart.r,e.r),r2:Math.max(selStart.r,e.r),
+          c1:Math.min(selStart.c,e.c),c2:Math.max(selStart.c,e.c)};
 }
-
-// ═══════════════════════════════════════════════════════════════
-//  KEYBOARD & CLIPBOARD
-// ═══════════════════════════════════════════════════════════════
-function initKeyboard(){
-
-  // ── Ctrl+C: copy our selection ─────────────────────────────
-  document.addEventListener('keydown', e=>{
-    const inInput = document.activeElement.tagName==='INPUT';
-
-    if((e.ctrlKey||e.metaKey) && e.key==='c'){
-      const rng = getSelRange();
-      // Only intercept when we have a real multi-cell or explicit selection
-      if(selStart){
-        e.preventDefault();
-        copySelection();
-      }
-      return;
-    }
-
-    // Delete key clears selection
-    if((e.key==='Delete'||e.key==='Backspace') && !inInput){
-      const rng=getSelRange();
-      if(!rng) return;
-      e.preventDefault();
-      clearRange(rng);
-      return;
-    }
-
-    // Arrow navigation outside inputs
-    if(['ArrowUp','ArrowDown','ArrowLeft','ArrowRight'].includes(e.key) && !inInput){
-      e.preventDefault();
-      moveSelection(e.key, e.shiftKey);
-    }
-  });
-
-  // ── PASTE: always intercept on document ────────────────────
-  // The paste event fires on document for ALL pastes (Ctrl+V, right-click, etc.)
-  // e.clipboardData is always populated here regardless of which element has focus.
-  // We intercept every paste when a cell is selected and spread the TSV grid.
-  document.addEventListener('paste', e=>{
-    if(!selStart) return; // nowhere to paste
-
-    const text = (e.clipboardData || window.clipboardData).getData('text/plain');
-    if(!text) return;
-
-    const isMultiCell = text.includes('\t') || text.includes('\n') || text.includes('\r');
-    const active = document.activeElement;
-    const inOurInput = active && active.tagName==='INPUT' && !!active.closest('#tbody');
-
-    // For single-value paste into a focused input: let the browser handle it naturally,
-    // then sync the new value into rows[].
-    if(!isMultiCell && inOurInput){
-      setTimeout(()=>{
-        const ri = +active.dataset.r, f = active.dataset.f;
-        if(!isNaN(ri) && f){ rows[ri][f] = active.value; renderCalcs(); }
-      }, 0);
-      return; // don't preventDefault — let browser insert into input
-    }
-
-    // Everything else: multi-cell TSV or paste into a computed/non-input cell
-    e.preventDefault();
-    pasteText(text, selStart);
-  });
-}
-
-function copySelection(){
-  const rng = getSelRange();
-  if(!rng) return;
-  const {r1,c1,r2,c2} = rng;
-  copyBuffer = [];
-  copyRange  = {r1,c1,r2,c2};
-
-  const lines = [];
-  for(let r=r1; r<=r2; r++){
-    const rowArr = [];
-    for(let c=c1; c<=c2; c++) rowArr.push(getCellValue(r,c));
-    copyBuffer.push(rowArr);
-    lines.push(rowArr.join('\t'));
+function applySel(){
+  document.querySelectorAll('#tbody td').forEach(td=>td.classList.remove('sel','sel-r','cps'));
+  if(cpRange){
+    const{r1,c1,r2,c2}=cpRange;
+    for(let r=r1;r<=r2;r++) for(let c=c1;c<=c2;c++) getCell(r,c)?.classList.add('cps');
   }
-  const tsv = lines.join('\n');
-  // Use execCommand as primary (works even without clipboard permission)
-  const ta = document.createElement('textarea');
-  ta.style.cssText = 'position:fixed;top:0;left:0;opacity:0.01;width:2px;height:2px;';
-  ta.value = tsv;
-  document.body.appendChild(ta);
-  ta.focus(); ta.select();
-  try{ document.execCommand('copy'); } catch(ex){}
-  document.body.removeChild(ta);
-  // Also try modern API
-  navigator.clipboard?.writeText(tsv).catch(()=>{});
-
-  showToast('Copied ' + copyBuffer.length + '\xd7' + copyBuffer[0].length + ' cells');
-  applySelection();
+  if(!selStart) return;
+  if(!selEnd){ getCell(selStart.r,selStart.c)?.classList.add('sel'); return; }
+  const{r1,c1,r2,c2}=getSelRng();
+  for(let r=r1;r<=r2;r++) for(let c=c1;c<=c2;c++){
+    const td=getCell(r,c); if(!td) continue;
+    td.classList.add(r===selStart.r&&c===selStart.c?'sel':'sel-r');
+  }
 }
+
+// ── Keyboard & Clipboard ───────────────────────────────────
+document.addEventListener('keydown', e => {
+  const inInp = document.activeElement.tagName==='INPUT';
+  if((e.ctrlKey||e.metaKey)&&e.key==='c'){
+    if(selStart){ e.preventDefault(); copySel(); }
+    return;
+  }
+  if((e.key==='Delete'||e.key==='Backspace')&&!inInp){
+    const rng=getSelRng(); if(!rng) return;
+    e.preventDefault(); clrRange(rng); return;
+  }
+  if(['ArrowUp','ArrowDown','ArrowLeft','ArrowRight'].includes(e.key)&&!inInp){
+    e.preventDefault(); moveSel(e.key,e.shiftKey);
+  }
+});
+
+document.addEventListener('paste', e => {
+  if(!selStart) return;
+  const text=(e.clipboardData||window.clipboardData).getData('text/plain');
+  if(!text) return;
+  const multi=text.includes('\t')||text.includes('\n')||text.includes('\r');
+  const act=document.activeElement;
+  const inOur=act?.tagName==='INPUT'&&!!act.closest('#tbody');
+  if(!multi&&inOur){
+    setTimeout(()=>{ const ri=+act.dataset.r,f=act.dataset.f; if(!isNaN(ri)&&f){ rows[ri][f]=act.value; lightCalc(ri); refreshAll(); } },0);
+    return;
+  }
+  e.preventDefault();
+  pasteTxt(text, selStart);
+});
+
+function copySel(){
+  const rng=getSelRng(); if(!rng) return;
+  const{r1,c1,r2,c2}=rng;
+  cpBuf=[]; cpRange={r1,c1,r2,c2};
+  const lines=[];
+  for(let r=r1;r<=r2;r++){
+    const ra=[];
+    for(let c=c1;c<=c2;c++) ra.push(getCellVal(r,c));
+    cpBuf.push(ra); lines.push(ra.join('\t'));
+  }
+  const tsv=lines.join('\n');
+  const ta=document.createElement('textarea');
+  ta.style.cssText='position:fixed;top:0;left:0;opacity:.01;width:2px;height:2px;';
+  ta.value=tsv; document.body.appendChild(ta); ta.focus(); ta.select();
+  try{ document.execCommand('copy'); }catch(x){}
+  document.body.removeChild(ta);
+  navigator.clipboard?.writeText(tsv).catch(()=>{});
+  toast('Copied '+cpBuf.length+'\xd7'+cpBuf[0].length+' cells');
+  applySel();
+}
+
 function parseTSV(text){
   const norm=text.replace(/\r\n/g,'\n').replace(/\r/g,'\n').replace(/\n$/,'');
-  if(!norm)return[['']];
+  if(!norm) return [['']];
   return norm.split('\n').map(line=>{
     const cells=[]; let inQ=false,cur='',i=0;
     while(i<line.length){
       const ch=line[i];
       if(ch==='"'){if(inQ&&line[i+1]==='"'){cur+='"';i+=2;continue}inQ=!inQ;i++;continue;}
       if(ch==='\t'&&!inQ){cells.push(cur);cur='';i++;continue;}
-      cur+=ch;i++;
+      cur+=ch; i++;
     }
-    cells.push(cur);
-    return cells;
+    cells.push(cur); return cells;
   });
 }
 
-function pasteText(text, origin){
-  if(!text||!text.trim()){if(copyBuffer)pasteBuffer(origin);return;}
+function pasteTxt(text, origin){
+  if(!text?.trim()){ if(cpBuf) pasteBuf(origin); return; }
   const grid=parseTSV(text);
-  while(rows.length<origin.r+grid.length)rows.push({name:'',size:'',amnt:'',reason:''});
-  let count=0;
-  grid.forEach((rowData,dr)=>{
-    rowData.forEach((val,dc)=>{
-      if(setCellValue(origin.r+dr,origin.c+dc,val.trim()))count++;
-    });
-  });
-  copyRange=null;
-  render();
+  while(rows.length<origin.r+grid.length) rows.push(BLANK());
+  grid.forEach((rd,dr)=>rd.forEach((val,dc)=>setCellVal(origin.r+dr,origin.c+dc,val.trim())));
+  cpRange=null; render();
   selEnd={r:origin.r+grid.length-1,c:origin.c+grid[0].length-1};
-  applySelection();
-  showToast('Pasted '+grid.length+' row(s) × '+grid[0].length+' col(s)');
+  applySel();
+  toast('Pasted '+grid.length+' row(s) \xd7 '+grid[0].length+' col(s)');
 }
-
-function pasteBuffer(origin){
-  if(!copyBuffer)return;
-  const rows_needed=origin.r+copyBuffer.length;
-  while(rows.length<rows_needed)rows.push({name:'',size:'',amnt:'',reason:''});
-  let count=0;
-  copyBuffer.forEach((rowData,dr)=>{
-    rowData.forEach((val,dc)=>{
-      if(setCellValue(origin.r+dr,origin.c+dc,val))count++;
-    });
-  });
-  render();
-  showToast(`Pasted ${count} cells`);
+function pasteBuf(origin){
+  if(!cpBuf) return;
+  while(rows.length<origin.r+cpBuf.length) rows.push(BLANK());
+  cpBuf.forEach((rd,dr)=>rd.forEach((val,dc)=>setCellVal(origin.r+dr,origin.c+dc,val)));
+  render(); toast('Pasted');
 }
-
-function clearRange(rng){
-  const {r1,c1,r2,c2}=rng;
-  for(let r=r1;r<=r2;r++) for(let c=c1;c<=c2;c++) setCellValue(r,c,'');
+function clrRange(rng){
+  const{r1,c1,r2,c2}=rng;
+  for(let r=r1;r<=r2;r++) for(let c=c1;c<=c2;c++) setCellVal(r,c,'');
   render();
 }
-
-// Get display value of a cell
-function getCellValue(r,c){
-  if(r>=rows.length||r<0)return'';
+function getCellVal(r,c){
+  if(r<0||r>=rows.length) return '';
   const row=rows[r];
-  if(c===1)return row.name;
-  if(c===2)return row.size;
-  if(c===3)return row.amnt;
-  if(c===8)return row.reason;
-  // Computed cells — return display text
-  const td=getCell(r,c);
-  return td?td.textContent.trim():'';
+  if(c===1)return row.name; if(c===2)return row.size;
+  if(c===3)return row.amnt; if(c===9)return row.reason;
+  return getCell(r,c)?.textContent.trim()||'';
 }
-
-// Set value of a cell; returns true if editable
-function setCellValue(r,c,val){
-  if(r<0)return false;
-  // Auto-extend rows array as needed (no upper cap — paste drives the size)
-  while(r>=rows.length)rows.push({name:'',size:'',amnt:'',reason:''});
-  if(c===1){rows[r].name=val;return true}
-  if(c===2){rows[r].size=val;return true}
-  if(c===3){rows[r].amnt=val;return true}
-  if(c===8){rows[r].reason=val;return true}
+function setCellVal(r,c,val){
+  if(r<0) return false;
+  while(r>=rows.length) rows.push(BLANK());
+  if(c===1){ rows[r].name=val; if(isEx(val)){ const g=getGFRS(); if(g) rows[r].size=String(g); } return true; }
+  if(c===2){ if(!isEx(rows[r].name)){ rows[r].size=val; return true; } return false; }
+  if(c===3){ rows[r].amnt=val; return true; }
+  if(c===9){ rows[r].reason=val; return true; }
   return false;
 }
-
-function moveSelection(key, shift){
-  if(!selStart)return;
-  const target=shift?(selEnd||selStart):selStart;
-  let {r,c}=target;
-  if(key==='ArrowUp')   r=Math.max(0,r-1);
-  if(key==='ArrowDown') r=Math.min(rows.length-1,r+1);
-  if(key==='ArrowLeft') c=Math.max(0,c-1);
-  if(key==='ArrowRight')c=Math.min(9,c+1);
-  if(shift){selEnd={r,c}}else{selStart={r,c};selEnd={r,c}}
-  applySelection();
+function moveSel(key,shift){
+  if(!selStart) return;
+  const t=shift?(selEnd||selStart):selStart;
+  let{r,c}=t;
+  if(key==='ArrowUp')    r=Math.max(0,r-1);
+  if(key==='ArrowDown')  r=Math.min(rows.length-1,r+1);
+  if(key==='ArrowLeft')  c=Math.max(0,c-1);
+  if(key==='ArrowRight') c=Math.min(10,c+1);
+  if(shift){ selEnd={r,c}; }else{ selStart={r,c}; selEnd={r,c}; }
+  applySel();
 }
-
-// Arrow key nav inside inputs
-function inputKeyNav(e){
-  const inp=e.target;
-  const r=+inp.dataset.r;
-  const f=inp.dataset.f;
-  const colMap={name:1,size:2,amnt:3,reason:8};
-  const c=colMap[f];
-  let nr=r,nc=c;
-
+function kNav(e){
+  const inp=e.target, r=+inp.dataset.r;
+  const td=inp.closest('td'); if(!td) return;
+  const c=+td.dataset.c;
+  const eC=[1,2,3,9];
   if(e.key==='Tab'){
     e.preventDefault();
-    // Move to next editable col or next row
-    const editCols=[1,2,3,8];
-    const idx=editCols.indexOf(c);
+    const idx=eC.indexOf(c);
     if(!e.shiftKey){
-      if(idx<editCols.length-1){nc=editCols[idx+1]}
-      else{nr=r+1;nc=editCols[0];if(nr>=rows.length){rows.push({name:'',size:'',amnt:'',reason:''});render();}}
+      if(idx<eC.length-1) focusInp(r,eC[idx+1]);
+      else{ if(r+1>=rows.length){ rows.push(BLANK()); render(); } focusInp(r+1,eC[0]); }
     } else {
-      if(idx>0){nc=editCols[idx-1]}else{nr=Math.max(0,r-1);nc=editCols[editCols.length-1]}
+      if(idx>0) focusInp(r,eC[idx-1]);
+      else focusInp(Math.max(0,r-1),eC[eC.length-1]);
     }
-    focusInput(nr,nc);return;
+    return;
   }
-  if(e.key==='ArrowDown'){nr=Math.min(rows.length-1,r+1);}
-  else if(e.key==='ArrowUp'){nr=Math.max(0,r-1);}
-  else if(e.key==='Enter'){nr=Math.min(rows.length-1,r+1);}
-  else return;
-  e.preventDefault();
-  focusInput(nr,nc);
+  if(e.key==='Enter'){ e.preventDefault(); if(r+1<rows.length) focusInp(r+1,c); }
+  if(e.key==='ArrowDown'&&r+1<rows.length){ e.preventDefault(); focusInp(r+1,c); }
+  if(e.key==='ArrowUp'&&r>0){              e.preventDefault(); focusInp(r-1,c); }
+}
+function focusInp(r,c){
+  const inp=document.querySelector(`#tbody td[data-r="${r}"][data-c="${c}"] input`);
+  if(inp){ inp.focus(); inp.select(); }
 }
 
-function focusInput(r,c){
-  const fMap={1:'name',2:'size',3:'amnt',8:'reason'};
-  const f=fMap[c];
-  if(!f)return;
-  const inp=document.querySelector(`input[data-r="${r}"][data-f="${f}"]`);
-  if(inp){inp.focus();inp.select();}
-}
-
-// ═══════════════════════════════════════════════════════════════
-//  TOAST
-// ═══════════════════════════════════════════════════════════════
-let toastTimer;
-function showToast(msg){
-  const el=document.getElementById('paste-info');
+// ── Toast ──────────────────────────────────────────────────
+let toastT;
+function toast(msg){
+  const el=document.getElementById('toast');
   el.textContent=msg; el.style.display='block';
-  clearTimeout(toastTimer);
-  toastTimer=setTimeout(()=>el.style.display='none',2000);
+  clearTimeout(toastT); toastT=setTimeout(()=>el.style.display='none',2200);
 }
 
-// ═══════════════════════════════════════════════════════════════
-//  APPROVAL FLOW
-// ═══════════════════════════════════════════════════════════════
+// ── Download ───────────────────────────────────────────────
 function handleDownload(){
-  modalQueue=[];
-  const {tSz,avg}=getTotals();
+  let err='';
+  if(!getMFN()){ document.getElementById('mfnVal').classList.add('err'); err+='MFN Value required. '; }
+  if(!getGFRS()){ document.getElementById('gfrsVal').classList.add('err'); err+='GFRS Size required. '; }
+  if(err){ document.getElementById('cfgErr').textContent='⚠ '+err; return; }
+  // Show review modal first
+  showReview();
+}
 
+function buildApprovalQueue(){
+  mq=[];
+  const{tSz,avg}=getTotals();
   const varBad=rows.filter(r=>{
-    if(EXEMPT(r.name)||!r.name.trim())return false;
-    const {sz,vari}=calcRow(r,avg,tSz);
-    if(!sz)return false;
-    const vp=vari*100; return vp>20||vp<-20;
+    if(isEx(r.name)||!r.name.trim()) return false;
+    const{sz,vari}=calcRow(r,avg,tSz); if(!sz) return false;
+    const vp=vari*100; return vp<100;
   });
   const saBad=rows.filter(r=>{
-    if(EXEMPT(r.name)||!r.name.trim())return false;
-    const {sz,sa}=calcRow(r,avg,tSz);
-    return sz>0&&sa*100>25;
+    if(!r.name.trim()) return false;
+    const{sz,sa}=calcRow(r,avg,tSz); return sz>0&&sa*100>25;
   });
-
-  if(varBad.length){
-    modalQueue.push({icon:'⚠️',title:'National Sales Head Approval Required',
-      msg:`<b>${varBad.length}</b> client(s) have Variation outside ±20%:<br><b>${varBad.map(r=>r.name).join(', ')}</b><br><br>Approval from <b>National Sales Head</b> is required before submission.`});
-  }
-  if(saBad.length){
-    modalQueue.push({icon:'🔴',title:'Sameer Sir Approval Required',
-      msg:`<b>${saBad.length}</b> client(s) have Space Allocation above 25%:<br><b>${saBad.map(r=>r.name).join(', ')}</b><br><br>Approval from <b>Sameer Sir</b> is required before submission.`});
-  }
-  modalQueue.length?showModal():doDownload();
+  // Also check GFRS space alloc
+  const gSz=getGFRS(); const{tSz:ts}=getTotals();
+  if(gSz>0&&ts>0&&(gSz/ts*100)>25)
+    saBad.push({name:'Generic/Filler/Research/Survey'});
+  if(varBad.length) mq.push({icon:'⚠️',title:'National Sales Head Approval Required',
+    msg:`<b>${varBad.length}</b> client(s) Variation below 100%:<br><b>${varBad.map(r=>r.name).join(', ')}</b><br><br>Approval from <b>National Sales Head</b> required.`});
+  if(saBad.length) mq.push({icon:'🔴',title:'Sameer Sir Approval Required',
+    msg:`<b>${saBad.length}</b> client(s) Space Allocation above 25%:<br><b>${saBad.map(r=>r.name).join(', ')}</b><br><br>Approval from <b>Sameer Sir</b> required.`});
 }
 
+// ── Review Modal ───────────────────────────────────────────
+function showReview(){
+  const {tSz, tAm, avg} = getTotals();
+  const mfn  = getMFN();
+  const gSz  = getGFRS();
+  const mfnR = tSz > 0 ? mfn / tSz : 0;
+  const today = new Date().toLocaleDateString('en-IN',{day:'2-digit',month:'short',year:'numeric'});
+
+  // Summary line
+  const filled = rows.filter(r=>r.name.trim()&&safeN(r.size)>0);
+  document.getElementById('rvSub').textContent =
+    `${filled.length} client(s) + GFRS row | Total Size: ${inFmt(tSz)} | Total Amount: ₹${inFmt(tAm)} | Avg Yield: ${avg.toFixed(0)} | Date: ${today}`;
+
+  // Warnings
+  const warns=[];
+  rows.forEach(r=>{
+    if(isEx(r.name)||!r.name.trim()) return;
+    const{sz,vari,sa}=calcRow(r,avg,tSz); if(!sz) return;
+    const vp=vari*100, sp=sa*100;
+    if(vp<100) warns.push(`⚠️ <b>${r.name}</b>: Variation ${vp.toFixed(0)}% is below 100% → National Sales Head approval required.`);
+    if(sp>25)         warns.push(`🔴 <b>${r.name}</b>: Space Allocation ${sp.toFixed(0)}% exceeds 25% → Sameer Sir approval required.`);
+  });
+  const wDiv=document.getElementById('rvWarnings');
+  wDiv.innerHTML = warns.length
+    ? `<div class="rv-warn">⚠️ <b>Approval required for ${warns.length} item(s):</b><ul style="margin:6px 0 0 18px">${warns.map(w=>`<li style="margin:3px 0">${w}</li>`).join('')}</ul></div>`
+    : '';
+
+  // Build table
+  const tbody = document.getElementById('rvTbody');
+  tbody.innerHTML='';
+  let sn=1;
+  rows.forEach(r=>{
+    if(!r.name.trim() && !safeN(r.size)) return; // skip fully blank
+    const{sz,net,vari,sa,mfnV}=calcRow(r,avg,tSz);
+    const has=r.name.trim()&&sz>0;
+    const vp=vari*100, sp=sa*100, mp=mfnV*100;
+    let vSpan='—', sSpan='—', mSpan='—';
+    if(has&&!isEx(r.name)){
+      const vCl=vp>=100?'rv1':'rv3';
+      vSpan=`<span class="${vCl}">${vp.toFixed(0)}%</span>`;
+      const sCl=sp>25?'rs3':sp>=20?'rs2':'rs1';
+      sSpan=`<span class="${sCl}">${sp.toFixed(0)}%</span>`;
+      if(mfnR>0){ const mCl=mp>=100?'rm1':'rm2'; mSpan=`<span class="${mCl}">${mp.toFixed(0)}%</span>`; }
+    } else if(has){
+      const sCl=sp>25?'rs3':sp>=20?'rs2':'rs1';
+      sSpan=`<span class="${sCl}">${sp.toFixed(0)}%</span>`;
+    }
+    const tr=document.createElement('tr');
+    if(isEx(r.name)) tr.classList.add('ex-rv');
+    tr.innerHTML=`<td>${sn++}</td><td class="bl">${r.name||'—'}</td>
+<td>${sz>0?sz.toLocaleString('en-IN'):'—'}</td>
+<td>${safeN(r.amnt)>0?safeN(r.amnt).toLocaleString('en-IN'):'0'}</td>
+<td>${has?net.toFixed(0):'—'}</td><td>${has?avg.toFixed(0):'—'}</td>
+<td>${vSpan}</td><td>${sSpan}</td><td>${mSpan}</td>
+<td class="bl" style="color:#555;font-size:.78rem">${r.reason||''}</td>`;
+    tbody.appendChild(tr);
+  });
+
+  // GFRS row
+  if(gSz>0){
+    const gAm=safeN(gfrsAmnt), gNet=gSz>0?gAm/gSz:0, gSa=tSz>0?gSz/tSz:0;
+    const gSpan=`<span class="${gSa*100>25?'rs3':gSa*100>=20?'rs2':'rs1'}">${(gSa*100).toFixed(0)}%</span>`;
+    const tr=document.createElement('tr');
+    tr.classList.add('ex-rv');
+    tr.innerHTML=`<td>${sn}</td><td class="bl">Generic / Filler / Research / Survey</td>
+<td>${gSz.toLocaleString('en-IN')}</td><td>${gAm>0?gAm.toLocaleString('en-IN'):'0'}</td>
+<td>${gNet>0?gNet.toFixed(0):'—'}</td><td>${avg.toFixed(0)}</td>
+<td>—</td><td>${gSpan}</td><td>—</td><td class="bl">Exempt from variation</td>`;
+    tbody.appendChild(tr);
+
+    // Totals row
+    const tot=document.createElement('tr');
+    tot.classList.add('tot');
+    tot.innerHTML=`<td colspan="2" style="text-align:left;padding:7px 10px">Total</td>
+<td>${inFmt(tSz)}</td><td>${inFmt(tAm)}</td>
+<td>${avg.toFixed(0)}</td><td>${avg.toFixed(0)}</td>
+<td></td><td></td><td>${mfnR>0?mfnR.toFixed(0):'—'}</td><td></td>`;
+    tbody.appendChild(tot);
+  }
+
+  document.getElementById('rvBg').classList.add('on');
+}
+
+function rvClose(){ document.getElementById('rvBg').classList.remove('on'); }
+
+function rvConfirmDownload(){
+  rvClose();
+  buildApprovalQueue();
+  mq.length ? showModal() : doDownload();
+}
 function showModal(){
-  if(!modalQueue.length){doDownload();return}
-  const m=modalQueue.shift();
+  if(!mq.length){ doDownload(); return; }
+  const m=mq.shift();
   document.getElementById('mIcon').textContent=m.icon;
   document.getElementById('mTitle').textContent=m.title;
   document.getElementById('mMsg').innerHTML=m.msg;
-  document.getElementById('modalBg').classList.add('open');
+  document.getElementById('modalBg').classList.add('on');
 }
-function proceedModal(){document.getElementById('modalBg').classList.remove('open');modalQueue.length?showModal():doDownload()}
-function cancelModal(){document.getElementById('modalBg').classList.remove('open');modalQueue=[]}
+function proceedModal(){ document.getElementById('modalBg').classList.remove('on'); mq.length?showModal():doDownload(); }
+function cancelModal(){ document.getElementById('modalBg').classList.remove('on'); mq=[]; }
 
-// ═══════════════════════════════════════════════════════════════
-//  DOWNLOAD
-// ═══════════════════════════════════════════════════════════════
 async function doDownload(){
-  const btn=document.getElementById('dlBtn');
-  const sp=document.getElementById('sp');
+  const btn=document.getElementById('dlBtn'), sp=document.getElementById('sp');
   btn.disabled=true; sp.style.display='inline-block';
   try{
-    const resp=await fetch('/generate',{method:'POST',
-      headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({rows})});
-    if(!resp.ok)throw new Error('Server error: '+resp.status);
+    const resp=await fetch('/generate',{
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({rows, mfn:getMFN(), gfrs_size:getGFRS(), gfrs_amnt:safeN(gfrsAmnt)})
+    });
+    if(!resp.ok) throw new Error('Server error: '+resp.status);
     const blob=await resp.blob();
     const url=URL.createObjectURL(blob);
     const a=document.createElement('a');
     a.href=url; a.download=`Variation_Sheet_${new Date().toISOString().slice(0,10)}.xlsx`;
-    document.body.appendChild(a);a.click();document.body.removeChild(a);
+    document.body.appendChild(a); a.click(); document.body.removeChild(a);
     URL.revokeObjectURL(url);
-  }catch(ex){
-    alert('Download failed: '+ex.message+'\n\nMake sure the server is running.');
-  }finally{
-    btn.disabled=false;sp.style.display='none';
-  }
+  }catch(ex){ alert('Download failed: '+ex.message); }
+  finally{ btn.disabled=false; sp.style.display='none'; }
 }
+
+// ── Tutorial ───────────────────────────────────────────────
+const STEPS=[
+  {sel:'#cfgCard',       title:'Step 1 — Configuration',
+   text:'Enter MFN Value (from SRR document) and the Generic/Filler/Research/Survey size. Both are mandatory. GFRS size auto-fills into all yellow exempt rows. MFN Benchmark Yield is calculated automatically.'},
+  {sel:'#tbody',         title:'Step 2 — Enter Client Data',
+   text:'Type Client Name, Size and Amount for each client. Net Yield, Avg Yield, Variation, Space Allocation and MFN Yield Variation all calculate live. Press Tab to move between cells, Enter/Arrow to move rows.'},
+  {sel:'.ex',            title:'Step 3 — Exempt Rows (Yellow)',
+   text:'Rows named Generic/Filler/Research/Survey are highlighted yellow. Size is auto-filled from config. Click the Amount cell to enter the amount via a popup. These rows are excluded from Variation calculations.',
+   fallback:'#tbody'},
+  {sel:'#tbl thead',     title:'Step 4 — Copy-Paste from Excel',
+   text:'Copy cells in Excel (Ctrl+C), click a cell in the table, then Ctrl+V. Multiple rows and columns paste automatically. Drag across cells to select a range, then Ctrl+C to copy from here.'},
+  {sel:'.leg',           title:'Step 5 — Colour Coding',
+   text:'Green = Variation ≥100% (at or above avg). Red = Variation <100% (below avg, approval needed). Yellow rows = exempt. Red space alloc = >25% (Sameer Sir). MFN Yield Var: Green = ≥100%, Red = <100%.',
+   fallback:'#tbody'},
+  {sel:'#dlBtn',         title:'Step 6 — Download Excel',
+   text:'Click Download Excel (always visible in header). If variation is outside 80–220% or space >25%, an approval prompt appears first. The Excel file includes full colour formatting and both notes at the bottom.'}
+];
+let tutIdx=0;
+
+function tutStart(){
+  tutIdx=0;
+  const dc=document.getElementById('tutDots');
+  dc.innerHTML=STEPS.map((_,i)=>`<div class="td${i===0?' on':''}" id="td${i}"></div>`).join('');
+  document.getElementById('tutBg').classList.add('on');
+  tutShow();
+}
+function tutEnd(){ document.getElementById('tutBg').classList.remove('on'); }
+function tutStep(){ tutIdx++; if(tutIdx>=STEPS.length){ tutEnd(); return; } tutShow(); }
+function tutShow(){
+  const s=STEPS[tutIdx];
+  STEPS.forEach((_,i)=>{ const d=document.getElementById('td'+i); if(d) d.className='td'+(i===tutIdx?' on':''); });
+  document.getElementById('tutBadge').textContent=`Step ${tutIdx+1} of ${STEPS.length}`;
+  document.getElementById('tutTitle').textContent=s.title;
+  document.getElementById('tutText').textContent=s.text;
+  document.getElementById('tutNext').textContent=tutIdx===STEPS.length-1?'✓ Done':'Next →';
+  let el=document.querySelector(s.sel);
+  if(!el&&s.fallback) el=document.querySelector(s.fallback);
+  if(!el){ tutStep(); return; }
+  el.scrollIntoView({behavior:'smooth',block:'center'});
+  setTimeout(()=>{
+    const rect=el.getBoundingClientRect(), pad=10;
+    const hole=document.getElementById('tutHole');
+    hole.style.cssText=`left:${rect.left-pad}px;top:${rect.top-pad}px;width:${rect.width+pad*2}px;height:${rect.height+pad*2}px`;
+    const card=document.getElementById('tutCard');
+    const cw=295, ch=195;
+    let cx=rect.left, cy;
+    if(rect.bottom+pad+14+ch<window.innerHeight) cy=rect.bottom+pad+14;
+    else if(rect.top-pad-14-ch>0)               cy=rect.top-pad-14-ch;
+    else                                          cy=Math.max(10,rect.top);
+    cx=Math.max(10,Math.min(cx,window.innerWidth-cw-10));
+    cy=Math.max(10,Math.min(cy,window.innerHeight-ch-10));
+    card.style.cssText=`left:${cx}px;top:${cy}px;width:${cw}px`;
+  },380);
+}
+
+// ── Init ───────────────────────────────────────────────────
+document.getElementById('hdate').textContent =
+  new Date().toLocaleDateString('en-IN',{day:'2-digit',month:'short',year:'numeric'});
+render();
 </script>
 </body>
 </html>
