@@ -221,11 +221,11 @@ tfoot td{font-weight:700;background:#BDD7EE;border:1px solid #b0bbd8;
 
 <!-- CONFIG -->
 <div class="card" id="cfgCard">
-  <div class="card-title">Configuration &nbsp;<span style="font-size:.74rem;color:#c62828;font-weight:600">* Both fields required before download</span></div>
+  <div class="card-title">Configuration &nbsp;<span style="font-size:.74rem;color:#c62828;font-weight:600">* MFA Value required before download</span></div>
   <div class="cfg">
     <div class="cf">
       <div class="cl">
-        MFN Value *
+        MFA Value *
         <button class="ib" tabindex="-1">i
           <div class="tip">Please refer MFN value from the Supplement Request (SRR). It is the benchmark revenue figure used to calculate MFN Yield Variation for each client.</div>
         </button>
@@ -233,7 +233,7 @@ tfoot td{font-weight:700;background:#BDD7EE;border:1px solid #b0bbd8;
       <input class="ci2" id="mfnVal" type="number" min="0" placeholder="e.g. 160000" oninput="cfgChange()">
     </div>
     <div class="cf">
-      <div class="cl">Generic / Filler / Research / Survey Size *</div>
+      <div class="cl">Generic / Filler / Research / Survey Size</div>
       <input class="ci2" id="gfrsVal" type="number" min="0" placeholder="e.g. 800 (Sq cm)" oninput="cfgChange()">
     </div>
     <div class="cf">
@@ -438,7 +438,7 @@ const getMFNRate = () => {
 
 function cfgChange(){
   document.getElementById('cfgErr').textContent = '';
-  ['mfnVal','gfrsVal'].forEach(id => document.getElementById(id).classList.remove('err'));
+  document.getElementById('mfnVal').classList.remove('err');
   // GFRS row is separate — just re-render to show/update it at the bottom
   render();
 }
@@ -881,8 +881,7 @@ function toast(msg){
 // ── Download ───────────────────────────────────────────────
 function handleDownload(){
   let err='';
-  if(!getMFN()){ document.getElementById('mfnVal').classList.add('err'); err+='MFN Value required. '; }
-  if(!getGFRS()){ document.getElementById('gfrsVal').classList.add('err'); err+='GFRS Size required. '; }
+  if(!getMFN()){ document.getElementById('mfnVal').classList.add('err'); err+='MFA Value required. '; }
   if(err){ document.getElementById('cfgErr').textContent='⚠ '+err; return; }
   // Show review modal first
   showReview();

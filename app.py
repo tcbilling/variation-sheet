@@ -90,7 +90,7 @@ def generate():
 
     # ── Row 2: MFN config (matching template layout) ─────────
     ws.set_row(1, 20)
-    ws.write(1,3,'MFN',       lblF); ws.write(1,4, mfn,       cfgF)
+    ws.write(1,3,'MFA',       lblF); ws.write(1,4, mfn,       cfgF)
     ws.write(1,5,'GFRS Size', lblF); ws.write(1,6, gfrs_size, cfgF)
 
     # ── Header row 4 (index 3) ───────────────────────────────
